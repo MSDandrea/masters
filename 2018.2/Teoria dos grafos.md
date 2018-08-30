@@ -5,6 +5,13 @@ date: 2018.2
 lang: pt-br
 header-includes: |
  \usepackage{mathtools}
+ \usepackage{amsmath}
+ \usepackage{amsthm}
+ \usepackage{tcolorbox}
+ \usepackage{graphicx}
+ \tcbuselibrary{theorems}
+ \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!45!black,fonttitle=\bfseries}{th}
+ \newtcbtheorem{corolario}{Corolario}{colback=blue!5,colframe=blue!45!black,fonttitle=\bfseries}{cr}
 ---
 
 \tableofcontents
@@ -74,6 +81,7 @@ Um ciclo é um passeio onde nenhum vértice exceto o inicial se repete, e apenas
 
 Uma corda é uma aresta que liga dois vértices não consecutivos do ciclo
 
+
 ## Propagação de propriedades.
 
 Dado um grafo $G$ uma propriedade é hereditária por subgrafos, e quando ela vale para $G$ ela também vale para seus subgrafos.
@@ -116,6 +124,16 @@ Por outro lado se o conjunto de vértices $S \subseteq V(G)$ induz um grafo sem 
 
 Notação: $K_n$ _grafo completo com $n$ vértices_, $S_n$ _conjunto independente com $n$ vértices_.
 
+Um grafo é bipartido quando é possível particionar seu conjunto de vértices em dois conjuntos $S_1$ e $S_2$ tal que $S_1 \cup S_2 = V(G)$ e $S_1 \cap S_2 = \emptyset$ onde ambos $S_1$ e $S_2$ são conjuntos independentes.
+
+
+\begin{theorem}{Um grafo $G$ é bipartido, se e somente se, $G$ não contém ciclos ímpares.}{th}
+ \textbf{Demonstração.}
+  Suponha por absurdo que $G$ seja bipartido e contenha um ciclo ímpar  $C = v_1,v_2,\ldots,v_{2k+1}, v_1$ seja $S_1 \cup S_2$ seja uma bipartição de $V(G$, suponha portanto sem perda de generalidade que $v_1 \in S_1$, dessa forma, $v_2 \in S_2, v_3 \in S_1, \ldots, v_{2k} \in S_2, v_{2k+1} \in S_1$. Porém dessa existe a aresta $()$
+ \qed
+\end{theorem}
+
+
 ## Maximalidade e minimalidade
 
 Um conjunto $S$ é maximal em relação a uma propriedade $P$, se:
@@ -131,6 +149,9 @@ Um conjunto $S$ é minimal em relação a uma propriedade $P$ se:
 ## Representações.
 
 Representação gráfica.
+
+![fig](./extras/Teoria dos grafos/repre.png){width=100px }
+
 Matriz de adjacências
 
 
@@ -138,8 +159,73 @@ Matriz de adjacências
 
 ## Árvores
 
+### Conceito
+
+Dizemos que um grafo é uma árvore se não possui ciclos e é conexo, uma floresta é um grafo cuja cada componente conexa é uma árvore.
+
+O centro de uma árvore são um ou dois vértices:
+
+**Algoritmo**
+\newpage
+
+
+```ruby
+def center(t Tree)
+  m = t
+  while m.vertices.size >= 3 do
+    leafs = m.leafs
+    m = m[m.vertices - leafs]
+  end
+  return m
+end
+```
+<!-- ```{kotlin,tidy=false}
+fun center(t Tree): Set<Vertex>{
+  var m = t
+  while (m.vertices.size >= 3) {
+    val leafs = m.leafs
+    m = m.induced(m.vertices - leafs)
+  }
+  return m.vertices
+}
+``` -->
+<!-- ```python
+def center(tree):
+  while vertices(tree) >= 3:
+    leafs = tree.leafs
+    tree = tree.induced(vertices(tree) - leafs)
+  return tree
+``` -->
 ## Conectividade
 
+Articulações são vértices cuja a remoção aumenta o número de componentes conexas do grafo.
+
+Teorema:
+$v$ é articulação $\iff$ $\exists x,y$ tal que todo caminho entre $x$ e $y$ contém $v$
+
+Demonstração:
+Como $v$ é articulação, após sua remoção a componente conexa que continha $v$ não mais existe. São criadas duas componentes conexas $C_1$ e $C_2$. Tome $x \in V(C_1)$ e $y \in V(C_2)$ seja $P$ um caminho de $x$ a $y$ em $G$. Em $G-v$, o caminho $P$ não existe. Logo, $v \in V(P)$.
+
+Em $G-v$ não pode haver nenhum caminho entre $x$ e $y$, pois de acordo com a premissa, a remoção de $v$ remove todos os possíveis caminhos entre os mesmos, isso significa que a remoção de $v$ aumentou o número de componentes conexas, logo $v$ é uma articulação.
+
+\begin{theorem}{Em uma árvore $T$ não trivial, $v$ é articulação se e somente se $v$ não é folha.}{th}
+ \textbf{Demonstração.}
+
+  Suponha por absurdo que $v$ é uma folha, como visto anteriormente existe então dois vértices $x$ e $y$ cujo o caminho entre eles passa por $v$, tal afirmação é contraditória pois $v$ é uma folha e tem $d(v)=1$, sendo impossível fazer parte de um caminho não sendo extremidade.\\
+
+  Seja $u$ um vértice não folha, portanto existe um caminho entre dois vértices $x$ e $y$ que contém $v$, suponha por absurdo que a remoção de tal vértice não aumente o número de componentes conexas, tal afirmação é absurda, pois isso implicaria em um caminho entre $x$ e $y$ que não contém $v$, o que implica em um ciclo e $T$ é uma árvore.
+ \qed
+\end{theorem}
+
+
+\begin{corolario}{Todo grafo $G$ conexo não trivial possui pelo menos 2 vértices que não são articulações}{cr}
+ \textbf{Demonstração.}
+
+  Seja $T$ a árvore geradora de $G$ e $x$ e $y$ folhas de $T$. Usando o teorema anterior, $x$ e $y$ não são articulações em $T$.
+
+  Portanto, como $T-x$ é árvore geradora de $G-x$, sem perda de generalidade $x$ e $y$ não são articulações em $G$.
+ \qed
+\end{corolario}
 # Segundo módulo
 
 ## Grafos eurelianos e hamiltonianos
