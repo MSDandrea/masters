@@ -1,0 +1,92 @@
+\documentclass[9pt]{./document-types/entcs} \usepackage{./document-types/entcsmacro}
+\usepackage{graphicx}
+\sloppy
+% The following is enclosed to allow easy detection of differences in
+% ascii coding.
+% Upper-case    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+% Lower-case    a b c d e f g h i j k l m n o p q r s t u v w x y z
+% Digits        0 1 2 3 4 5 6 7 8 9
+% Exclamation   !           Double quote "          Hash (number) #
+% Dollar        $           Percent      %          Ampersand     &
+% Acute accent  '           Left paren   (          Right paren   )
+% Asterisk      *           Plus         +          Comma         ,
+% Minus         -           Point        .          Solidus       /
+% Colon         :           Semicolon    ;          Less than     <
+% Equals        =3D           Greater than >          Question mark ?
+% At            @           Left bracket [          Backslash     \
+% Right bracket ]           Circumflex   ^          Underscore    _
+% Grave accent  `           Left brace   {          Vertical bar  |
+% Right brace   }           Tilde        ~
+
+% A couple of exemplary definitions:
+
+
+\newcommand{\Nat}{{\mathbb N}}
+\newcommand{\Real}{{\mathbb R}}
+\def\lastname{Please list Your Lastname Here}
+\begin{document}
+\begin{frontmatter}
+  \title{An Example Paper} \author{My
+    Name\thanksref{ALL}\thanksref{myemail}}
+  \address{My Department\\ My University\\
+    My City, My Country} \author{My Co-author\thanksref{coemail}}
+  \address{My Co-author's Department\\My Co-author's University\\
+    My Co-author's City, My Co-author's Country} \thanks[ALL]{Thanks
+    to everyone who should be thanked} \thanks[myemail]{Email:
+    \href{mailto:myuserid@mydept.myinst.myedu} {\texttt{\normalshape
+        myuserid@mydept.myinst.myedu}}} \thanks[coemail]{Email:
+    \href{mailto:couserid@codept.coinst.coedu} {\texttt{\normalshape
+        couserid@codept.coinst.coedu}}}
+\begin{abstract}
+  This is a short example to show the basics of using the ENTCS style
+  macro files.  Ample examples of how files should look may be found
+  among the published volumes of the series at the ENTCS Home Page
+  \texttt{http://www.elsevier.com/locate/entcs}.
+\end{abstract}
+\begin{keyword}
+  Please list keywords from your paper here, separated by commas.
+\end{keyword}
+\end{frontmatter}
+
+
+
+
+
+\section{Introduction}\label{intro}
+
+\section{Começou}
+
+{\sc Coloring($r,\ell$)} can be easily solved in polynomial time when $(r,\ell) \in \{(0,1),(1,0),(1,1),(2,0)\}$.
+Therefore, in order to completely classify the complexity when $r+\ell \leq 2$ remains to analyse the $(0,2)$-case.
+
+	\begin{lemma}
+{\sc Coloring($0,2$)} can be solved in polynomial time.
+\end{lemma}
+	\begin{proof}
+$(0,2)$-graphs, also known as co-bipartite, is a subclass of perfect graphs~\cite{bollo98}, consequently its chromatic number
+equals to its clique number, which can be found in polinomial time using a polynomial algorithm for {\sc Independent Set}
+on bipartite graphs (see~\cite{konig31,zing12}).
+	\end{proof}
+
+As $(3,0)$-graphs (tripartite graphs) have chromatic number at most three, and to verify if the chromatic number of a graph $G$
+is one or two is trivial, we know that {\sc Coloring($3,0$)} can be solved in polynomial time.
+Next we consider $(4,0)$-graphs.
+
+\begin{lemma}
+{\sc Coloring($4,0$)} is NP-Complete.
+\end{lemma}
+\begin{proof}
+It is well-known that any planar graph is $(4,0)$ (4-colorable)~\cite{appel77}, and X and Y provide an $O(n^2)$ algorithm to find a 4-coloring of a planar graph.
+In addition, to determine whether a planar graph $G$ is 3-colorable is NP-complete~\cite{larry} (even when a $(4,0)$-partition of $G$ is also provided).
+Therefore to determine the chromatic number of $(4,0)$-graphs is NP-complete.
+\end{proof}
+
+
+
+\section{Bibliographical references}\label{references}
+
+\begin{thebibliography}{10}\label{bibliography}
+
+\end{thebibliography}
+
+\end{document}

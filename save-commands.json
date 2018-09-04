@@ -1,4 +1,7 @@
 {
 	"commands": [
-		"**/*.md : pandoc ./{relFullPath} --syntax-definition ./pandoc/language/lang.xml --highlight-style ./pandoc/language/def.theme -o {relPath}{name}.pdf --filter ./pandoc/filters/dot-filter.py --quiet"]
+		"**/*.md : pandoc ./{relFullPath} --syntax-definition ./pandoc/language/lang.xml --highlight-style ./pandoc/language/def.theme -o {relPath}{name}.pdf --filter ./pandoc/filters/dot-filter.py --quiet",
+		"**/*.tex : pdflatex -interaction=nonstopmode -synctex=1 -output-directory={relPath} -shell-escape ./{relFullPath}",
+		"**/*.tex : pdflatex -interaction=nonstopmode -synctex=1 -output-directory={relPath} -shell-escape ./{relFullPath}"
+	]
 }

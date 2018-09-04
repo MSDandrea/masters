@@ -1,0 +1,306 @@
+\chapter{Análise parametrizada para coloração em Grafos(2,1)}
+
+Tendo mostrado a complexidade clássica de coloração em grafos$(r,\ell)$, é interessante elucidarmos quais características dos grafos$(r,\ell)$ se mostram propícias a abordagem parametrizada. A cardinalidade de suas partições, por exemplo, é um parâmetro interessante.
+
+Nosso foco nesse capítulo será a classe dos grafos(2,1), já que a mesma é uma das classes com o menor número partes para o qual o problema já é NP-Completo.
+
+Um Grafo(2,1) é um grafo para o qual seu conjunto de vértices po ser particionado em 2 conjuntos independentes e 1 clique, portanto ele nos entrega 3 parâmetros naturais, o tamanho da clique $k$, o tamanho do menor conjunto independente $r_1$ e o tamanho do maior conjunto independente $r_2$.
+
+\section{O tamanho do menor conjunto independente como parâmetro}
+
+Em \cite{fellows07}, Fellows (et. al) mostrou que o problema de lista coloração é $W[1]-difícil$ quando parametrizado pela cobertura de vértices, essa demonstração baseia-se em uma transformação do problema da clique multicolorida parametrizada pelo tamanho da clique buscada. Utilizaremos essa transformação para mostrar que coloração em grafos$(2,1)$ é W[1]-difícil..
+
+\begin{definition}
+	Clique multicolorida.\\
+	\par\addvspace{.1\baselineskip}
+	\noindent
+	\begin{tabularx}{\textwidth}{@{\hspace{\parindent}} l X c}
+		\textbf{Entrada:} & Um Grafo $G$ com uma k-coloração própria.\\% Input
+		\textbf{Pergunta:} & Existe em $G$ uma clique que contenha todas as k cores?
+	\end{tabularx}
+	\par\addvspace{.5\baselineskip}
+\end{definition}
+
+\begin{teorema}
+Coloração em Grafos(2,1) é $W[1]-difícil$ quando parametrizado pelo tamanho do menor conjunto independente.
+\end{teorema}
+
+\begin{proof}	
+O problema da clique multicolorida é conhecidamente $W[1]-difícil$~\cite{fellows07}.
+A partir de uma instância $G,k$ de clique multicolorida, iremos construir uma instância $G'$ de lista coloração da seguinte forma:
+ 
+\begin{itemize}
+\item Para cada cor $i$ presente em $G$ cria-se em $G'$ um vértice $v_i$ (os chamaremos de vértices-cor).
+
+\item Para cada vértice $u$ em $G$ colorido com a cor $i$, adicionamos à lista do vértice-cor $v_i$ em $G'$ uma cor $c_u$ relacionada a esse vértice (as chamaremos de cores-vértice).
+
+\item Para cada aresta $e(x,y) \notin E(G)$ onde $x,y \in V(G)$ cria-se em $G'$ um vértice $z_e$ adjacente ao vértice-cor $v_i$ onde $i$ representa as cores de $x$ e $y$, a lista coloração de $z_e$ será formada por $c_x$ e $c_y$.
+
+\end{itemize}
+	
+É notável que já que formamos um grafo bipartido, a cobertura por vértices é limitado por $k$. Perceba agora que se $G$ possui uma clique multicolorida podemos facilmente colorir $G'$ da seguinte forma:
+	
+Ao vértice-cor $v_i$ atribua a cor-vértice $c_u$ onde $u$ é o vértice colorido com a cor $i$ em $G$. Dessa forma todos os vértices $z_e$ possuem ainda uma cor disponível para sua coloração já que ele representa uma não-aresta em $G$. 
+	
+Agora observe que uma lista coloração válida em $G'$ implica em uma clique multicolorida em $G$, isso se dá pois dois vértices $x,y$ coloridos com cores diferentes em $G$ não aparecem em uma lista de algum $z_e$ em $G'$ se e somente se existe uma aresta $e(x,y) \in E(G)$, portanto as cores-vértices escolhidas para os vértices $v_i$ são uma respectivamente uma clique formadas por tais $i$ em $G$. Mostramos assim que lista coloração parametrizada por cobertura por vértices é $W[1]-difícil$.
+	
+Sabemos que coloração em Grafos(2,1) é equivalente a lista coloração em um grafo bipartido, portanto nossa tentativa de parametrizar a coloração de (2,1) pelo tamanho do menor conjunto independente é equivalente a parametrizar lista-coloração em bipartidos pelo tamanho da menor parte, mostrando assim que coloração em Grafos(2,1) parametrizada pelo tamanho do menor conjunto independente é $W[1]-difícil$. 
+\end{proof}
+
+\section{O tamanho do maior independente como parâmetro}
+
+Sabemos agora que parametrizar o problema pelo menor independente não é útil para produzirmos um algoritmo FPT, porém ao analisarmos o comportamento do problema quando parametrizado pelo maior independente vemos que a limitação do tamanho de $r_2$ também limita $r_1$; Tendo tal limitação a utilização de um método força bruta se mostra uma abordagem válida, como mostrado pelo teorema seguinte.
+
+\begin{teorema}
+Coloração de Grafos(2,1) é FPT quando parametrizado pelo tamanho do maior conjunto independente.
+\end{teorema}
+
+\begin{proof}
+Sendo $r_2$ o tamanho do maior conjunto independente. Para colorir um grafo (2,1) são necessárias pelo menos $k$ cores, onde $k$ é a cardinalidade da parte clique. Para solucionar o problema, novamente usaremos a estratégia de transformar coloração de (2,1) em lista coloração de bipartido.
+  
+Em uma lista coloração de bipartido, se um vértice possui uma lista com mais cores do que o tamanho de sua vizinhança, ele sempre terá disponível uma cor para sua coloração, podemos portanto remover esse vértice do grafo sem alterar sua coloração, ao chegarmos ao ponto onde todo vértice com tal configuração foi removido, temos que tanto o número de vértices do grafo quanto o tamanho das listas de cada vértices estão limitados em função de $r_2$, portanto rodar um algoritmo de força bruta para encontrar a coloração em tempo FPT.     
+\end{proof}
+
+\section{O tamanho da clique como parâmetro}
+
+Para análise da complexidade parametrizada do problema, onde $k$, o tamanho da clique máxima, é o parâmetro voltaremos a observar coloração em um Grafo(2,1) como lista coloração em bipartido, dessa forma nosso problema parametrizado se torna lista coloração de bipartido parametrizado pelo número de cores da paleta. 
+
+Mostraremos que o tamanho da clique não é muito eficaz para a produção de um algoritmo FPT para o problema, na verdade, observamos que o problema permanece NP-difícil mesmo quando o tamanho da clique máxima é igual a três. Para tal se faz necessário definir o seguinte problema: 
+
+\begin{definition}
+	PreColoring extension.\\
+	\par\addvspace{.1\baselineskip}
+	\noindent
+	\begin{tabularx}{\textwidth}{@{\hspace{\parindent}} l X c}
+		\textbf{Entrada:} & Um grafo $G$ onde alguns vértices já possuem uma coloração definida com cores escolhidas dentre $k$ possíveis cores.\\% Input
+		\textbf{Pergunta:} & É possível estender a $k$-coloração já existente para todo o grafo sem que dois vértices adjacentes possuam a mesma cor?
+	\end{tabularx}
+	\par\addvspace{.5\baselineskip}
+\end{definition}
+
+\begin{teorema}(\cite{kratochvil94})
+PreColoring Extension em grafos bipartidos é NP-completo mesmo quando $k=3$.
+\end{teorema}
+
+\begin{teorema}
+\label{theorem:list-coloring-bipartide}
+lista 3-coloração em grafos bipartidos é NP-Completo.
+\end{teorema}
+
+\begin{proof}
+Suponha uma instância $G,k$ do problema PreColoring Extension onde $G$ é o grafo de entrada, e $k=3$. Sabemos que existem vertices $v\in V(G)$ que já estão coloridos com uma cor $c_v \in {1,2,3}$. Podemos ver tal configuração como um grafo $G'$ onde os vértices $v$ que estavam previamente coloridos possuem listas contendo apenas a $c_v$, e os demais vértices possuem lista igual a $\{1,2,3\}$, nos levando a um problema de lista 3-coloração.
+	
+Uma coloração possível para $G$ implica em uma  possível coloração para $G'$, já que nos basta atribuir aos vértices em $G'$ as mesmas cores atribuídas em $G$. De forma análoga, uma lista coloração possível em $G'$ implica em uma coloração possível em $G$.
+\end{proof}
+
+Apesar do tamanho da paleta não ter se mostrado uma escolha adequada, ele levanta novos parâmetros que são interessantes para o problema de lista coloração em bipartidos, sabemos que lista coloração é polinomial se todos os vértices tem lista tamanho três (3-coloração), ou dois (2-coloração), e NP-Completo se tem listas de tamanho 1 à 3 \cite{kratochvil94}, isso levanta duas formas de se abordar o problema
+\begin{itemize}
+	\item O que acontece quando o número de vértices com listas de tamanho 1 e 2 é pequeno?
+	\item O que acontece quando o número de vértices com listas de tamanho 3 é pequeno?
+\end{itemize}
+
+Mostraremos nas próximas seções como se dão tais comportamentos e como eles se relacionam a coloração de Grafos$(r,\ell)$.
+
+\section{A vizinhança da clique como parâmetro}
+
+Focaremos nesta seção em grafos(2,1) cuja a clique possui tamanho 3, já mostrada ser o menor tamanho onde o problema permanece difícil(como visto no Teorema \ref{theorem:list-coloring-bipartide} e em \cite{kratochvil94,hujter93}).
+
+ Observe que, se um nó não é vizinho de nenhum vértice na clique, após a redução esse vértice tem lista de tamanho três. Todo vértice vizinho a clique, após a transformação tem vértice com lista de tamanho $3-x$ onde $x$ é o número de seus vizinhos na clique.Um vértice nunca terá uma lista de tamanho 0 pois a clique é máxima. 
+
+Mostraremos que mesmo quando parametrizado pela quantidade de vértices com listas de tamanho um, dois, ou um e dois o problema é para-Np-completo. Para tanto é necessário encontrar uma instância do problema já parametrizado cuja solução permanece igualmente difícil.
+
+Portanto essa seção será dividida em três casos, um contendo vértices de listas tamanho um, outro contendo vértices com listas de tamanhos dois, e finalmente contendo listas de tamanho um e dois.
+
+
+\subsection{Apenas vértices com listas de tamanho um ou três}
+
+É importante ressaltar que os seguintes teoremas estabelecem a base para a resolução do problema envolvendo os vizinhos da clique. 
+
+\begin{teorema}\label{teorema:6-v-np}
+Lista 3-Coloração em grafos bipartidos é NP-completo mesmo quando todos vértices possuem listas de tamanho três, com exceção de três vértices com lista unitárias.
+\end{teorema}
+
+\begin{proof}
+Seja $G$ uma instancia de Lista 3-Coloração em grafos bipartidos. Podemos transformar $G$ em uma instância $G'$ de Lista 3-Coloração em grafos bipartidos onde todos vértices possuem listas de tamanho três, com exceção de três vértices de listas unitárias. Além disso, $G$ é uma instância sim se e somente se $G'$ é uma instância sim.
+
+A construção de $G'$ é dada da seguinte forma:
+
+\begin{itemize}
+\item Faça $G'=G$;
+\begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.32]{g'.svg}
+		\caption{Grafo $G'$ inicial. }
+\end{figure}
+\item adicione seis novos vértices em $G'$: $a_1,a_2,a_3$ e $b_1,b_2,b_3$, onde as listas de $a_1,a_2,a_3,b_1,b_2,b_3$ são $\{1\},\{2\},\{3\},\{1,2,3\},\{1,2,3\},\{1,2,3\}$;
+\begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.32]{g'1.svg}
+\end{figure}
+\item adicione em $G'$ as arestas $(a_2,b_1),(a_3,b_1),(a_1,b_2),(a_3,b_2),(a_1,b_3),(a_2,b_3)$;
+\begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.32]{g'2.svg}
+\end{figure}
+\item Seja $A,B$ a bipartição dos vértices de $G$. 
+\begin{itemize}
+\item para cada vértice $v\in A$ adicione uma aresta entre $v$ e $b_i$, $i\in\{1,2,3\}$ se $v$ não possui a cor $i$ em sua lista;
+\item para cada vértice $v\in B$ adicione uma aresta entre $v$ e $a_i$, $i\in\{1,2,3\}$ se $v$ não possui a cor $i$ em sua lista;
+\item para cada vértice em $A\cup B$ altere sua lista para $\{1,2,3\}$
+\end{itemize}
+\end{itemize}
+
+%fazer figura completa
+\begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.32]{g'4.svg}
+		\caption{Grafo $G'$ final. }
+		\label{fig:seis-vertices-lista-um}
+\end{figure}
+
+
+Observe que $a_1$,$a_2$,$a_3$ por possuírem listas unitárias devem ser coloridos com as cores 1,2 e 3, respectivamente. Consequentemente, por construção, $b_1,b_2$ e $b_3$ terão que ser coloridos com as cores $1,2$ e $3$, respectivamente (observe o gadget da Figura \ref{fig:gadget}). Como os vértices $a_1,a_2,a_3$ e $b_1,b_2,b_3$ possuem cores pré-definidas, a adjacência dos demais vértices do grafo a estes vértices simula a proibição do uso de algumas cores em alguns vértices. Neste ponto, é fácil ver que $G$ é uma instância sim se e somente se $G'$ é uma instância sim.
+\end{proof}
+
+\begin{figure}[H]
+  \begin{subfigure}
+    \centering
+		\includesvg[scale=0.6]{gadget-1.svg}
+  \end{subfigure}
+  \begin{subfigure}
+    \centering
+		\includesvg[scale=0.6]{gadget-2.svg}
+  \end{subfigure}
+  \begin{subfigure}
+    \centering
+		\includesvg[scale=0.6]{gadget-3.svg}
+  \end{subfigure}
+  \caption{Gadget com vértices de lista um reproduzindo vértice de lista um em vértice de lista três}
+  \label{fig:gadget}
+\end{figure}
+
+Interessantemente o problema é de trivial solução quando o número de vértices com listas tamanho um é zero, já que se torna o problema de 3-coloração em bipartidos, mas NP-Completo com 3 vértices, queremos portanto encontrar o menor número de vértices no qual o problema é NP-Completo, e consequentemente para-NP-Completo para nossa parametrização.
+
+Lista 3-coloração em bipartido é trivial quando há apenas um vértice de lista unitária e todos os demais vértices possuem listas de tamanho três.
+
+\begin{teorema}
+Lista 3-coloração em bipartido pode ser solucionado em tempo linear quando existem dois vértices com lista unitária e os demais vértices possuem listas de tamanho três.
+\end{teorema}
+
+\begin{proof}
+Para essa demonstração é necessária a observação em que existem duas possíveis configurações para essa instância:
+
+ \begin{itemize}
+   \item Ambos os vértices pertencem ao mesmo conjunto independente.
+   \item Os vértices pertencem a conjuntos distintos.
+ \end{itemize} 
+
+No primeiro caso basta colorir os vértices de lista unitária com suas cores disponíveis e o conjunto independente ao qual pertencem com a cor de algum deles, colorindo o conjunto independente restante com a cor sobressalente.
+ 
+No segundo caso, a coloração também é simples. Se tais vértices tem cores distintas basta colorir seus respectivos conjuntos com a mesma cor. Caso contrário, sem perda de generalidade podemos assumir que esses vértices não são adjacentes, senão a resposta do problema é negativa. Seja 1 a cor comum a esses vértices de lista unitária, neste caso, basta colorir o grafo obtido pela remoção desses vértices com as cores 2 e 3.
+\end{proof}
+
+Dado os resultados apresentados nessa seção mostramos portanto que o número de vértices vizinhos a dois dos três vértices pertencentes a clique não é um parâmetro viável para uma solução FPT, já que a dificuldade permanece mesmo com 3 vértices.
+  
+\subsection{Apenas vértices com listas de tamanho dois ou três}
+
+Mostraremos nessa seção que vértices com listas tamanho dois não são suficientes para que um algoritmo FPT seja extraído.
+
+Como já visto o problema é de trivial solução quando todos os vértices tem listas de tamanho três, portanto precisamos ainda encontrar qual número de vértices de tamanho dois onde o problema se mantém NP-Completo.
+
+\begin{teorema}
+ Seis vértices com listas tamanho 2 são necessários e suficientes para que lista-coloração em bipartido seja NP-Completo.
+\end{teorema}
+\begin{proof}
+ Para mostrarmos que qualquer número de vértices abaixo de 6 é insuficiente, mostraremos que a menos que existam pelo menos 3 vértices com distintas listas tamanho dois em cada conjunto independente, a coloração é simples de ser feita. 
+ 
+ Se um conjunto independente contém apenas dois vértices com listas tamanho dois, podemos afirmar que todos os vértices nesse conjunto compartilham uma cor em suas listas, podendo colorir tal conjunto com essa cor, todos os outros vértices ainda têm pelo menos uma cor disponível para sua coloração podendo ser colorido com ela. É fácil notar que o argumento se estende para o caso onde alguma lista se repete dentro de qualquer $r$, já que dessa forma existe uma cor em comum entre todas as listas de tal $r$.
+ 
+ Para completar nossa demonstração basta portanto, encontrar uma configuração onde o problema de lista coloração permanece NP-Completo.
+ 
+ Para tanto nos é interessante agora a vizinhança entre os vértices com lista dois, iremos isolar as instâncias em alguns casos.
+ \begin{itemize}
+   \item Vizinhança de algum vértice é tamanho um:\\
+   Nesse caso podemos notar que independentemente do vértice $v \in r_1$ e seu vizinho $u \in r_2$, eles sempre compartilharão uma cor, colorimos o vértice $u$ com tal cor, além disso como conhecemos a vizinhança de $v$ sabemos que nenhum outro vértice é vizinho deste, podemos então colorir os restantes vértices de $r_2$ com a cor de $v$, dessa forma uma das três cores ainda resta e podemos a usar para colorir o restante do $r_1$, independente das ligações entre os demais vértices de $r_1$ e $r_2$.
+   \begin{figure}[H]
+     \centering
+     \fontsize{6}{10}
+     \includesvg[scale=0.5]{1-edge.svg}
+     \caption{Demonstração de coloração para vizinhança de tamanho um.}
+   \end{figure}
+   \item Um vértice têm vizinhança tamanho dois, e compartilha uma cor com ambos os vizinhos:\\
+    Aqui podemos executar o seguinte algoritmo, sem perda de generalidade pinte os vértices vizinhos à $v \in r1$ com a cor compartilhada, novamente por conhecermos a vizinhança do vértice $v$ podemos pintar ele e os demais vértices de $r_2$ com a cor restante, dessa forma ainda nos resta uma cor para colorir os demais vértices de $r_1$.
+    \begin{figure}[H]
+     \centering
+     \fontsize{6}{10}
+     \includesvg[scale=0.5]{2-edge.svg}
+     \caption{Demonstração de coloração para vizinhança de tamanho dois com cores compartilhadas.}
+   \end{figure}
+   \item Todo vértice tem vizinhança de tamanho dois e nenhuma vizinhança possui uma cor em comum:\\
+   Observe que esse caso tem suas restrições derivadas dos casos acima, aqui mostraremos como PreColoring extension se reduz a esse caso, mostrando finalmente sua Np-Completude.
+   
+   As restrições impostas a esse caso nos levam a uma única possível estrutura $\Gamma$ onde suas duas possíveis colorações são intercambiáveis, vide figura \ref{fig:2-edge-b}. Portanto se mostra verdade que podemos excitar uma cor qualquer em outro vértice de lista tamanho três se o ligarmos a dois dos três vértices presentes no independente oposto sem ferir a bipartição do grafo.
+   \begin{figure}[H]
+     \centering
+     \fontsize{6}{10}
+     \includesvg[scale=0.5]{2-edge-b.svg}
+     \caption{Estrutura $\Gamma$ e suas possíveis colorações.}
+     \label{fig:2-edge-b}
+   \end{figure}
+   
+   Assim sendo para reduzir um problema de PreColoring extension em bipartido $\Pi$ ao nosso problema $\Pi'$ basta que para todo vértice pré-colorido $v_{c_j} \in V(\Pi) | c_j \in C$ cria-se um paralelo $u \in V(\Pi')$ com lista de tamanho três e liga-o aos vértices de $\Gamma$ a fim de excitar sua cor da seguinte forma: 
+   
+   Escolha sem perda de generalidade um vértice $v \in r1$ pré-colorido com a cor $c_j$, observe que $\Gamma$ possui dois conjuntos de ligações capazes de excitar $c_j$ em $u$ utilizando o gadget da Figura \ref{fig:gadget}, escolha um desses conjuntos. Portanto $\forall v_{c_j} | j \neq i$ basta realizar a ligação com $\Gamma$ respeitando o conjunto de ligações já escolhido.
+   
+    Os demais vértices de $V(\Pi)$ são construídos mantendo suas respectivas vizinhanças em $\Pi'$ e com lista de tamanho três, é de pouca dificuldade compreender como uma resposta para $\Pi'$ implica em uma resposta para $\Pi$, pois se $\Pi'$ é lista colorível, então $\Pi$ é colorível respeitando a pré-coloração, já que a coloração de $\Gamma$ é indiferente para os vértices não vizinhos à ela e sempre respeita a coloração de sua vizinhança, para a demonstração da contraparte basta escolher as mesmas cores escolhidas em $\Pi$ para seus respectivos em $\Pi'$ que implicará em uma coloração para $\Gamma$ inofensiva ao resultado. 
+ \end{itemize}
+\end{proof}
+
+
+É importante notar que para o acontecimento de haver vértices com listas tamanho um e dois, basta notar que podemos remover aqueles que contém listas de tamanho um, que propagará a remoção de sua cor às listas de vértices vizinhos, e ao realizar isso iterativamente, acabaremos com um caso em que todos os vértices terão ou listas de tamanho dois ou três, caindo em algum dos casos supracitados.
+
+\section{Tamanho da não vizinhança da clique como parâmetro}
+
+Como visto na seção anterior, os vértices que não são vizinhos a clique, quando transformados em vértices do problema de lista coloração se transformam em vértices com listas tamanho três, portanto nosso desejo é resolver lista coloração em bipartidos com listas de tamanho um a três parametrizado pela quantidade de vértices com lista de tamanho três, a solução deriva do seguinte teorema.
+
+\begin{teorema}
+Lista 3-coloração em bipartidos é FPT quando parametrizado pela quantidade de vértices com lista de tamanho três.
+\end{teorema}
+
+\begin{proof}
+Dado que temos $k$ vértices com 3 escolhas cada é possível montar um algoritmo de busca em árvore de altura limitada da seguinte forma:
+
+\begin{itemize}
+  \item Considere a instância de nosso problema como um vértice.
+  \begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.4]{bound-tree-k.svg}
+		\caption{Árvore de altura limitada inicial. }
+\end{figure}
+
+  \item Escolha um dos $k$ vértices de lista tamanho três.
+  \item Para cada cor disponível adicione uma instância com $k-1$ vértices de lista tamanho três.
+  \begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.4]{bound-tree-k-1.svg}
+		\caption{Árvore de altura limitada 1ª iteração. }
+\end{figure}
+
+  \item Realize os passos anteriores $x$ vezes até o nível $k-x=0$.
+  \begin{figure}[H]
+		\centering
+		\fontsize{5}{10}
+		\includesvg[scale=0.4]{bound-tree-k-k.svg}
+		\caption{Árvore de altura limitada última iteração. }
+\end{figure}
+\end{itemize}
+ 
+ Observe que ao finalizarmos tal algoritmo temos uma árvore de tamanho $3^k$, onde as folhas são instâncias sem nenhum vértice que possuem lista de tamanho três. 
+ Podemos então executar o algoritmo polinomial proposto em \cite{hujter93} nas folhas, obtendo assim um algoritmo $\mathcal{O}(3^kn^{\mathcal{O}(1)})$. para nosso problema.
+\end{proof}
