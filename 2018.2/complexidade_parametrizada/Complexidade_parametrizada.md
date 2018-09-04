@@ -3,7 +3,7 @@ title: Complexidade Parametrizada
 author: Matheus Souza D'Andrea Alves
 institute: UFF
 date: 2018.2
-header-includes: | # pacotes latex para uso no texto
+header-includes: |  # pacotes latex para uso no texto
  \usepackage{tikz}
  \usetikzlibrary{shapes,arrows}
  \usepackage{mathtools}

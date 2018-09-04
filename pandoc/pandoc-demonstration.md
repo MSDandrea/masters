@@ -274,7 +274,7 @@ digraph graphname{
   rankdir=BT;
   edge [style="-latex"  ];
   node [style=filled texmode="math" shape=circle fillcolor=darkolivegreen2];
-  b[xlabel=tchu]
+  b[xlabel=tchu];
   a -> "\\Pi";
 	b -- d;
 }

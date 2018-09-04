@@ -1,0 +1,4 @@
+{
+	"commands": [
+		"**/*.md : pandoc ./{relFullPath} --syntax-definition ./pandoc/language/lang.xml --highlight-style ./pandoc/language/def.theme -o {relPath}{name}.pdf --filter ./pandoc/filters/dot-filter.py --quiet"]
+}

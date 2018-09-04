@@ -4,16 +4,23 @@ author: Matheus Souza D'Andrea Alves
 date: 2018.2
 lang: pt-br
 header-includes: |
- \usepackage{mathtools}
- \usepackage{amsmath}
- \usepackage{amsthm}
- \usepackage{tcolorbox}
- \usepackage{pgfplots}
- \usetikzlibrary{intersections}
- \usetikzlibrary{patterns}
- \usepackage{graphicx}
- \tcbuselibrary{theorems}
- \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{th}
+  \usepackage{tikz}
+  \usetikzlibrary{shapes,arrows}
+  \usepackage{mathtools}
+  \usepackage{amsmath}
+  \usepackage{amsthm}
+  \usepackage{tcolorbox}
+  \usepackage{pgfplots}
+  \usetikzlibrary{intersections}
+  \usetikzlibrary{patterns}
+  \usepackage{multicol}
+  \usepackage{graphicx}
+  \tcbuselibrary{theorems}
+  \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!45!black,fonttitle=\bfseries}{th}
+  \newtcbtheorem{coro}{Corolario}{colback=blue!5,colframe=blue!45!black,fonttitle=\bfseries}{cr}
+  \newtcbtheorem{lemma}{Lema}{colback=orange!5,colframe=orange!35!black,fonttitle=\bfseries}{lm}
+  \newtcbtheorem{define}{Definição}{colback=black!5,colframe=black,fonttitle=\bfseries}{lm}
+  \newtcbtheorem{problem}{Problema}{colback=gray!5,colframe=gray!45!black,fonttitle=\bfseries}{lm}
 ---
 
 \tableofcontents
@@ -22,8 +29,8 @@ header-includes: |
 # Introdução
 
 
-
 ## Infos gerais
+
 [Site](www.ic.uff.br/~yuri/pi.html)
 
 Salas:
@@ -377,6 +384,114 @@ Seja minha entrada a definição da ordem das máquinas em que os jobs devem ser
 **Variáveis**
 
 $$X_{j,t,i} = \begin{cases} 1, \text{se a tarefa $j$, começa no tempo $t$, na máquina $i$}. \\ 0, \text{caso contrário} \end{cases}$$
+
+----------------------------------
+
+### Problemas em árvores
+
+Problema de minimizar o número de _branch_-vértices em uma árvore geradora.
+
+> Dado um grafo $G=(V,E)$ encontrar uma árvore geradora que minimize o número de $b$-vértices.
+>
+>> Um vértice $v$ é um $b$-vértice se na árvore se $d(v) \geq 3$  
+
+**Variáveis:**
+
+$$X_e = \begin{cases} 1, \text{se a aresta $e \in E(G)$ pertence a árvore}. \\ 0, \text{caso contrário} \end{cases}$$
+
+$$Y_v = \begin{cases} 1, \text{se o vértice $v \in V(G)$ é um $b$-vértice}. \\ 0, \text{caso contrário} \end{cases}$$
+
+**Restrições:**
+
+> mínimo
+
+$$\sum\limits_{e \in E(G)}X_e = n-1$$
+
+> subciclo
+
+$$\sum\limits_{e \in E(S)}X_e = |S|-1 \quad \quad \text{$\forall S \subset V$}$$
+
+
+> $b$-vértices
+
+$$\sum\limits_{e \in \delta(i)}X_e \leq Y_i \mathcal{M}+2 \quad \quad \text{$\forall i \subset V$}$$
+
+
+**Objetivo:**
+
+$$min\{\sum\limits_{v \in V}Y_v\}$$
+
+-----------
+
+Problema da $k$-tree mínima, encontrar uma árvore com $k$ arestas de custo mínimo
+
+> $\omega_i \quad \forall i \in E(G) \to \text{custo}$
+
+**Variáveis:**
+
+$$X_e = \begin{cases} 1, \text{se a aresta $e \in E(G)$ pertence a árvore}. \\ 0, \text{caso contrário} \end{cases}$$
+
+$$Y_v = \begin{cases} 1, \text{se o vértice $v \in V(G)$ é um $b$-vértice}. \\ 0, \text{caso contrário} \end{cases}$$
+
+**Restrições:**
+
+$$\sum\limits_{e \in E(G)}X_e = k$$
+
+$$\sum\limits_{e \in \delta(i)}X_e \leq Y_i \mathcal{M}$$
+
+$$\Big\Updownarrow$$
+
+$$X_i \leq Y_i \quad \quad ,\forall i \in \delta(i)$$
+
+$$\sum\limits_{e \in E(S)}X_e \leq |S| - 1 \quad \quad ,\forall S \subset V(G) \quad \text{and} \quad |S| \leq k+1$$
+
+$$\big\Updownarrow$$
+
+$$\sum\limits_{e \in E(S)}X_e \leq \sum\limits_{i \in S\\\{j\}} Y_i \quad \quad ,\forall S \subset V(G) \quad \text{and} \quad \forall j \in S$$
+
+**Objetivo**
+
+$$\sum\limits_{e \in E}\omega_e X_e$$
+
+-----------------------------
+
+_Ring-star Problem_
+
+Dado um grafo misto $G=(V,E \cup A)$
+
+> $E =(u,v) \quad \forall u,v \in V(G) \quad \text{and} \quad u < v$
+>
+> $A =\{u,v\} \quad u,v \in V(G)$
+>
+> $v_1$ é denominado depósito
+>
+> $c_{i,j}$ é o custo da aresta $(i,j) \in E$
+>
+> $d_{i,j}$ é o custo da aresta $(i,j) \in A$
+>
+>> o ciclo é formado por arestas $e \in E$ e o ciclo(_Ring_) deve conter o depósito.
+>>
+>> todo vértice que não faz parte do ciclo é conectado ao ciclo por um arco $a \in A$ de menor custo de conexão ao ciclo.
+>>
+>> o custo do _Ring_ é dado pela soma dos $c_{i,j}$ para $i$ e $j$ dentro do ciclo e $d_{i,j}$ para $i$ ñ pertencente.
+
+**Variáveis:**
+
+$$ X_e = \begin{cases} 1, \text{se a aresta $e \in E$ esta no ciclo}. \\ 0, \text{caso contrário} \end{cases} $$
+
+$$ Y_{i,j} = \begin{cases} 1, \text{se o vértice $i$ que não está no ciclo}\\ \quad \text{for ligado ao vértice $j$ pertencente ao ciclo}. \\ 0, \text{caso contrário} \end{cases} $$
+
+Se $i \in V$ pertence ao cilo, $Y_{i,i} = 1$
+
+**Restrições:**
+
+$$\sum\limits_{e \in \delta(i)}=2Y_{i,i} \quad \forall i \in V$$
+
+$$Y_{1,1}=1$$
+
+$$Y_{i,i} + \sum\limits_{j \in N_a(i)} Y_{i,j} = 1$$
+
+$$ \sum\limits_{i \in S \; j \notin S}X_{i,j} \geq 2Y_{k,k} \quad \forall S \subset V \{v_i\} \quad \forall k \in S$$
 
 # Otimização relaxamento limites
 

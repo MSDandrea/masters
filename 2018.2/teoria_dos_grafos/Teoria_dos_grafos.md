@@ -4,15 +4,30 @@ author: Matheus Souza D'Andrea Alves
 date: 2018.2
 lang: pt-br
 header-includes: |
- \usepackage{mathtools}
- \usepackage{amsmath}
- \usepackage{amsthm}
- \usepackage{tcolorbox}
- \usepackage{graphicx}
- \tcbuselibrary{theorems}
- \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!45!black,fonttitle=\bfseries}{th}
- \newtcbtheorem{corolario}{Corolario}{colback=blue!5,colframe=blue!45!black,fonttitle=\bfseries}{cr}
+  \usepackage{tikz}
+  \usetikzlibrary{shapes,arrows}
+  \usepackage{mathtools}
+  \usepackage{amsmath}
+  \usepackage{amsthm}
+  \usepackage{tcolorbox}
+  \usepackage{pgfplots}
+  \usetikzlibrary{intersections}
+  \usetikzlibrary{patterns}
+  \usepackage{multicol}
+  \usepackage{graphicx}
+  \tcbuselibrary{theorems}
+  \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!45!black,fonttitle=\bfseries}{th}
+  \newtcbtheorem{coro}{Corolario}{colback=blue!5,colframe=blue!45!black,fonttitle=\bfseries}{cr}
+  \newtcbtheorem{lemma}{Lema}{colback=orange!5,colframe=orange!35!black,fonttitle=\bfseries}{lm}
+  \newtcbtheorem{define}{Definição}{colback=black!5,colframe=black,fonttitle=\bfseries}{lm}
+  \newtcbtheorem{problem}{Problema}{colback=gray!5,colframe=gray!45!black,fonttitle=\bfseries}{lm}
 ---
+
+\newcommand{\teorema}[2]{\begin{theorem}{#1}{th} \textbf{Demonstração.}\\ #2 \qed \end{theorem}}
+\newcommand{\corolario}[2]{\begin{coro}{#1}{cr} \textbf{Demonstração.}\\ #2 \qed \end{coro}}
+\newcommand{\lema}[2]{\begin{lemma}{#1}{lm} \textbf{Demonstração.}\\ #2 \qed \end{lemma}}
+\newcommand{\definicao}[2]{\begin{define}{#1}{lm}  #2 \end{define}}
+\newcommand{\problema}[3]{\begin{problem}{#1}{lm} \textbf{Entrada:}  \textit{#2} \\ \textbf{Questão:} #3  \end{problem}}
 
 \tableofcontents
 \pagebreak
@@ -127,11 +142,9 @@ Notação: $K_n$ _grafo completo com $n$ vértices_, $S_n$ _conjunto independent
 Um grafo é bipartido quando é possível particionar seu conjunto de vértices em dois conjuntos $S_1$ e $S_2$ tal que $S_1 \cup S_2 = V(G)$ e $S_1 \cap S_2 = \emptyset$ onde ambos $S_1$ e $S_2$ são conjuntos independentes.
 
 
-\begin{theorem}{Um grafo $G$ é bipartido, se e somente se, $G$ não contém ciclos ímpares.}{th}
- \textbf{Demonstração.}
+\teorema{Um grafo $G$ é bipartido, se e somente se, $G$ não contém ciclos ímpares.}{
   Suponha por absurdo que $G$ seja bipartido e contenha um ciclo ímpar  $C = v_1,v_2,\ldots,v_{2k+1}, v_1$ seja $S_1 \cup S_2$ seja uma bipartição de $V(G$, suponha portanto sem perda de generalidade que $v_1 \in S_1$, dessa forma, $v_2 \in S_2, v_3 \in S_1, \ldots, v_{2k} \in S_2, v_{2k+1} \in S_1$. Porém dessa existe a aresta $()$
- \qed
-\end{theorem}
+}
 
 
 ## Maximalidade e minimalidade
@@ -179,23 +192,7 @@ def center(t Tree)
   return m
 end
 ```
-<!-- ```{kotlin,tidy=false}
-fun center(t Tree): Set<Vertex>{
-  var m = t
-  while (m.vertices.size >= 3) {
-    val leafs = m.leafs
-    m = m.induced(m.vertices - leafs)
-  }
-  return m.vertices
-}
-``` -->
-<!-- ```python
-def center(tree):
-  while vertices(tree) >= 3:
-    leafs = tree.leafs
-    tree = tree.induced(vertices(tree) - leafs)
-  return tree
-``` -->
+
 ## Conectividade
 
 Articulações são vértices cuja a remoção aumenta o número de componentes conexas do grafo.
@@ -208,24 +205,33 @@ Como $v$ é articulação, após sua remoção a componente conexa que continha 
 
 Em $G-v$ não pode haver nenhum caminho entre $x$ e $y$, pois de acordo com a premissa, a remoção de $v$ remove todos os possíveis caminhos entre os mesmos, isso significa que a remoção de $v$ aumentou o número de componentes conexas, logo $v$ é uma articulação.
 
-\begin{theorem}{Em uma árvore $T$ não trivial, $v$ é articulação se e somente se $v$ não é folha.}{th}
- \textbf{Demonstração.}
+\teorema{Em uma árvore $T$ não trivial, $v$ é articulação se e somente se $v$ não é folha.}{
 
   Suponha por absurdo que $v$ é uma folha, como visto anteriormente existe então dois vértices $x$ e $y$ cujo o caminho entre eles passa por $v$, tal afirmação é contraditória pois $v$ é uma folha e tem $d(v)=1$, sendo impossível fazer parte de um caminho não sendo extremidade.\\
 
-  Seja $u$ um vértice não folha, portanto existe um caminho entre dois vértices $x$ e $y$ que contém $v$, suponha por absurdo que a remoção de tal vértice não aumente o número de componentes conexas, tal afirmação é absurda, pois isso implicaria em um caminho entre $x$ e $y$ que não contém $v$, o que implica em um ciclo e $T$ é uma árvore.
- \qed
-\end{theorem}
+  Seja $u$ um vértice não folha, portanto existe um caminho entre dois vértices $x$ e $y$ que contém $v$, suponha por absurdo que a remoção de tal vértice não aumente o número de componentes conexas, tal afirmação é absurda, pois isso implicaria em um caminho entre $x$ e $y$ que não contém $v$, o que implica em um ciclo e $T$ é uma árvore.}
 
 
-\begin{corolario}{Todo grafo $G$ conexo não trivial possui pelo menos 2 vértices que não são articulações}{cr}
- \textbf{Demonstração.}
+\corolario{Todo grafo $G$ conexo não trivial possui pelo menos 2 vértices que não são articulações}{
 
   Seja $T$ a árvore geradora de $G$ e $x$ e $y$ folhas de $T$. Usando o teorema anterior, $x$ e $y$ não são articulações em $T$.
 
   Portanto, como $T-x$ é árvore geradora de $G-x$, sem perda de generalidade $x$ e $y$ não são articulações em $G$.
- \qed
-\end{corolario}
+}
+
+\teorema{Seja $G$ um grafo com pelo menos 3 vértices. G é biconexo se e somente se para cada par de vértices em $V(G)$ existem dois caminhos disjuntos entre eles.}{
+  Seja $\kappa(G)$ o menor número de vértices tal que sua remoção desconecta G $\omega(G-\kappa(G)) > \omega(G)$.\\
+
+  $G$ é $p$-conexo quando $p \leq \kappa(G)$.\\
+
+  Portanto observe que se $G$ é biconexo e existe um par de vértices $u$ e $v$ tal que só existe um caminho em $G$, por definição algum vértice de tal caminho é articulação e sua remoção desconecta $G$ e portanto $\kappa(G) = 1 \implies 2 \leq 1$ que é absurdo. Assumindo portanto que para todo par de vértices em $G$ existem dois caminhos, é impossível tornar o grafo desconexo removendo apenas um vértice, logo $\kappa(G) \geq 2$ e $G$ é biconexo.
+
+}
+
+\teorema{ Seja $G$ um grafo com $k+1$ vértices. $G$ é $k$-conexo se e somente se para quaisquer dois vértices de $G$ existem $k$ caminhos internamente disjuntos entre eles.}{
+  
+}
+
 # Segundo módulo
 
 ## Grafos eurelianos e hamiltonianos
