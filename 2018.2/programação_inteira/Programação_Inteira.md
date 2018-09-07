@@ -475,6 +475,7 @@ Dado um grafo misto $G=(V,E \cup A)$
 >>
 >> o custo do _Ring_ é dado pela soma dos $c_{i,j}$ para $i$ e $j$ dentro do ciclo e $d_{i,j}$ para $i$ ñ pertencente.
 
+
 **Variáveis:**
 
 $$ X_e = \begin{cases} 1, \text{se a aresta $e \in E$ esta no ciclo}. \\ 0, \text{caso contrário} \end{cases} $$
@@ -492,6 +493,89 @@ $$Y_{1,1}=1$$
 $$Y_{i,i} + \sum\limits_{j \in N_a(i)} Y_{i,j} = 1$$
 
 $$ \sum\limits_{i \in S \; j \notin S}X_{i,j} \geq 2Y_{k,k} \quad \forall S \subset V \{v_i\} \quad \forall k \in S$$
+
+
+---
+
+Coloração Equilibrada
+
+A diferença na quantidade de vértices coloridos com cada cor não pode ser maior que 1
+
+**Variáveis:**
+
+$$ X_{i,j} = \begin{cases} 1, \text{se a vértice $i$é colorido com $j$}. \\ 0, \text{caso contrário} \end{cases} $$
+
+$$ Y_{j} = \begin{cases} 1, \text{se a cor $j$ é usada} \\ 0, \text{caso contrário} \end{cases} $$
+
+**Restrições:**
+
+$$\sum\limits_{j=1}^{n} X_{i,j} = 1 \quad , \forall i \in V$$
+$$X_{i,j} + X_{k,j} \leq 1 \quad , \forall i \in V \; , \forall k \in N(i) \; , \forall j = 1 ... n $$
+
+ -----------------
+
+ Problema de alocação de Frequencia
+
+Atribuição de frequencias à antenas de forma a minimizar interferência.
+
+> cada $(u,v) \in E(G)$ tem uma distância segura $d_{u,v} $
+>
+> Existe um conjunto de frequencias $F$
+
+ ```{.dot scale="0.4"}
+ graph G
+ {
+   node[shape=circle]
+   A -- B [label="1"];
+   A -- C [label="2"];
+
+   { rank=same B -- C [label="1"]};
+   { rank=same D -- E [label="5"]};
+
+   C -- E [label="2"];
+   D -- B [label="3"];
+ }
+ ```
+
+ **Variáveis:**
+
+ $$ X_{i,j} = \begin{cases} 1, \text{se a antena $i$ é atribuida frequencia $j$}. \\ 0, \text{caso contrário} \end{cases} $$
+
+
+ **Restrições:**
+
+$$\sum\limits_{j \in F}X_{i,j} \leq \Delta(i) \quad ,\forall i \in V$$
+
+$$ X_{i,j} - X_{p,k} \leq 1 \quad \begin{cases} \forall i \in V \; , \forall p \in N(i)  \\ \forall j \in  F \; ,\forall k \in F  \end{cases} $$
+
+**Objetivo:**
+
+ $$max \sum\limits_{i \in V}\sum\limits_{j \in F}X_ij$$
+
+
+----------
+
+Máximo subgrafo balanceado
+
+Dado um grafo $G = (V, E^+ \cup E^-)$, encontrar um grafo que pode ser particionado em no máximo $k$ componentes equilibradas
+um grafo
+
+```{.dot scale="0.4"}
+graph G
+{
+  node[shape=circle]
+  edge[len=9];
+  A -- B [label="+"];
+  A -- C [label="+"];
+
+  { rank=same B -- C [label="-"]};
+  { rank=same D -- E [label="-"]};
+
+  C -- E [label="+"];
+  D -- B [label="-"];
+}
+```
+
 
 # Otimização relaxamento limites
 

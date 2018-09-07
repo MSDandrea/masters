@@ -1,0 +1,6 @@
+graph test {
+graph[layout=circo]
+  node[shape=point]
+  splines=spline
+  a -- b -- c -- d -- e -- f -- a;
+}

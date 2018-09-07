@@ -1,0 +1,8 @@
+graph G
+{
+        node [shape="circle"];
+
+        a -- b [label = "-"];
+        a -- c [label = "-"];
+        {rank=same; "b" -- "c" [label="+"];}
+}

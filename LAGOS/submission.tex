@@ -1,5 +1,6 @@
 \documentclass[9pt]{./document-types/entcs} \usepackage{./document-types/entcsmacro}
 \usepackage{graphicx}
+\usepackage{dot2texi}
 \sloppy
 % The following is enclosed to allow easy detection of differences in
 % ascii coding.
@@ -53,6 +54,17 @@
 
 
 \section{Introduction}\label{intro}
+
+\begin{dot2tex}[neato, options=-tmath]
+graph G
+{
+        node [shape="circle"];
+
+        a -- b [label = "-"];
+        a -- c [label = "-"];
+        {rank=same; "b" -- "c" [label="+"];}
+}
+\end{dot2tex} 
 
 \section{Começou}
 
