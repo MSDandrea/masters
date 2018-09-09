@@ -73,25 +73,119 @@ graph G {
 Sabemos que é possível encontrar $P_3$ em tempo $\mathcal{O}(n+m)$ portanto usando o número de movimentos restantes como paramêtro segue o algoritmo.
 
 ```{.lang .numberLines }
-Function ClusterEditable(Graph g, int remainingMovements): bool{
+Function ClusterEdit(Graph g, int remainingMovements): Graph{
   if g.hasP3()  {
     if remainingMovements = 0 {
-      return false
+      return null
     } else {
-      p3 = g.getP3()
-      g1 = g.removeEdge(p3.edges[0])
-      g2 = g.removeEdge(p3.edges[1])
-      g3 = g.addEdge(p3.vertices[0],p3.vertices[2])
+      var p3 = g.getP3()
+      var g1 = g.removeEdge(p3.edges[0])
+      var g2 = g.removeEdge(p3.edges[1])
+      var g3 = g.addEdge(p3.vertices[0],p3.vertices[2])
       remainingMovements--
       return ClusterEditable(g1,remainingMovements)
             or ClusterEditable(g2,remainingMovements)
             or ClusterEditable(g3,remainingMovements)
     }     
   } else
-      return true
+      return g
 }
 ```
 
 Tal algoritmo é resolvível em tempo $\mathcal{O}(k^3 (n+m))$
 
-## Distância entre Strings
+## Cadeia mais próxima
+
+Observe as seguintes definições
+
+\definicao{Distancia entre strings}{Um inteiro que representa quantos caracteres são diferentes entre uma string $s$ e uma string $s'$}
+
+\problema{Cadeia mais próxima}{Um conjunto de strings $S$ um inteiro $d$.}{Existe uma string $s$ tal que $distance(s,s_i) \leq d; \quad \forall s_i \in S$}
+
+
+Um parâmetro intuitivo para o problema é a distância.
+
+Usando esse parâmetro podemos formular o seguinte algoritmo, suponha o seguinte conjunto $S$ de strings:
+
+----- -----
+  ADB AAB
+  BDB ABD
+  JBD QAB
+----- -----
+
+Escolha uma string $s \in S$. Observe que para cada string em $S$ temos uma distânca a atual string.
+
+Suponha $s = ADB$ e $d=2$, nossas distâncias são:
+
+----- -----
+    0 1
+    2 2
+    3 2
+----- -----
+
+Escolha agora um $s' \in S$ qualquer tal que $distance(s,s') > d$. Portanto seja $s' =  JBD$, escolhemos as $d+1$ posições onde $s$ difere de $s'$
+
+| `0 1 2`
+| `A D B`
+| `J B D`  $\implies \{0,1,2\}$
+| \color{red} `J B D` \color{black}
+
+Para cada posição diferente realize a troca do caracter na string atual, logo:
+
+| JDB:
+|    ----- -----
+|        1 2
+|        1 3
+|        2 2
+|    ----- -----
+|
+|
+| ABB:
+|    ----- -----
+|        1 1
+|        1 1
+|        2 2
+|    ----- -----
+|
+|
+| ADD:
+|    ----- -----
+|        1 2
+|        1 1
+|        2 3
+|    ----- -----
+
+Cada instância gerada deve estar a uma distância $d'=d-1$ para a próxima iteração. Observe que, se $distance(s,s_i) > d + d'$ esta instância é inviável, pois seria impossível reduzir a distânca para o esperado com os movimentos possíveis.
+
+Observe que em nosso exemplo já encontramos $ABB$ que é uma solução possível, pois $\forall s \in S \; distance(s,ABB) \leq 2$.
+
+O algoritmo é sintetizado a seguir.
+
+```{.lang .numberLines}
+Function ClosestString(Set<string> set,int maxDistance,
+                       string current, int remainingDistance): string {
+    if remainingDistance < 0 {
+      return null
+    }
+    if set.Any(str -> {distance(current,str) > maxDistance + remainingDistance}){
+      return null
+    }
+    if set.All(str -> {distance(current,str) <= maxDistance }){
+      return current
+    }
+    var distant = set.First(str -> {distance(str,current) > maxDistance})
+    var differentLettersPositions = distant.PositionOf(pos -> {
+      distant[pos] != current[pos]
+    })
+    var range = differentLettersPositions[0...maxDistance]
+    for position in range do {
+      var newCurrent = current
+      newCurrent[position] = distant[position]
+      var result = ClosestString(set,maxDistance,newCurrent,remainingDistance-1)
+      if result not null {
+        return result
+      }  
+    }
+    return null
+}
+```
