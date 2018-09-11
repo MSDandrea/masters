@@ -560,7 +560,7 @@ Máximo subgrafo balanceado
 Dado um grafo $G = (V, E^+ \cup E^-)$, encontrar um grafo que pode ser particionado em no máximo $k$ componentes equilibradas
 um grafo
 
-```{.dot scale="0.4"}
+```{.dot scale="0.4", caption="K_5"}
 graph G
 {
   node[shape=circle]
