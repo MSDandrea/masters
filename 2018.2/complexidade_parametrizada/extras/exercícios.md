@@ -39,7 +39,7 @@ Observe as seguintes definições:
 \definicao{Grafo Cluster}{Um grafo $G$ onde toda componente conexa $\delta_i$(G) é uma clique.}
 
 \definicao{Grafo livre de $P_3$}{
-  Um grafo $G$ é chamado de livre de $P_3$ se e somente se não possuir um grafo caminho com 3 vértices.
+  Um grafo $G$ é chamado de livre de $P_3$ se e somente se não possuir um grafo caminho induzido  com 3 vértices.
 }
 
 Dessa forma demonstraremos o seguinte teorema.
@@ -52,7 +52,7 @@ Dessa forma demonstraremos o seguinte teorema.
 
 Abordaremos o problema de cluster editing para esse exercício conforme descrito abaixo.
 
-\problema{Cluster editing}{Um grafo $G$}{Qual é o menor número de arestas que podem ser removidas ou inseridas em $G$ que causam o grafo resultante ser um cluster.}
+\problema{Cluster editing}{Um grafo $G$ um inteiro $k$}{É possível transformar $G$ em um grafo cluster, adicionando/removendo $k$ arestas?}
 
 Como vimos acima, um grafo cluster é livre de $P_3$ e portanto podemos abordar o problema de cluster editing como o problema de eliminação de $P_3$ em um grafo $G$.  Para eliminar um p3 existem 3 possibilidades:
 
