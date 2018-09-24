@@ -1,5 +1,7 @@
 \documentclass[9pt]{./document-types/entcs} \usepackage{./document-types/entcsmacro}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary[shapes, arrows]
 \usepackage{dot2texi}
 \sloppy
 % The following is enclosed to allow easy detection of differences in
@@ -55,17 +57,6 @@
 
 \section{Introduction}\label{intro}
 
-\begin{dot2tex}[neato, options=-tmath]
-graph G
-{
-        node [shape="circle"];
-
-        a -- b [label = "-"];
-        a -- c [label = "-"];
-        {rank=same; "b" -- "c" [label="+"];}
-}
-\end{dot2tex} 
-
 \section{Começou}
 
 {\sc Coloring($r,\ell$)} can be easily solved in polynomial time when $(r,\ell) \in \{(0,1),(1,0),(1,1),(2,0)\}$.
@@ -91,6 +82,23 @@ Next we consider $(4,0)$-graphs.
 It is well-known that any planar graph is $(4,0)$ (4-colorable)~\cite{appel77}, and X and Y provide an $O(n^2)$ algorithm to find a 4-coloring of a planar graph.
 In addition, to determine whether a planar graph $G$ is 3-colorable is NP-complete~\cite{larry} (even when a $(4,0)$-partition of $G$ is also provided).
 Therefore to determine the chromatic number of $(4,0)$-graphs is NP-complete.
+\end{proof}
+
+Is noticeable that any $(r,\ell)$-graph is simultaneously a $(r+1,\ell)$-graph and a $(r,\ell+1)$-graph, since we can choose any vertex to act as both independent set and a clique. Therefore we can state that the problem is NP-Complete for any $(r,\ell)$-graphs $\forall r \geq 4 , \ell \geq 0$
+
+The following theorem serves as base for the next demonstrations.
+
+\begin{theorem}
+  {\sc List-Coloring$(r,\ell)$} is equivalent to {\sc Coloring$(r,\ell+1)$}.
+\end{theorem}
+\begin{proof}
+    Let $G$ be the graph of an instance of {\sc List-Coloring$(r,\ell)$}, and $C=\{c_1,c_2,\ldots,c_n\}$ the color set formed by the lists of colors for each vertex.
+
+    For each color $c_i \in C$ create a vertex $u_i$ and connects it to all others $u_j\; \forall j < i$. If a vertex $v \in V(G)$ does not have the color $c_i$ in its list, then adds an edge from $v$ to $u_i$. This steps generates a new graph $H$. It is simple to notice that if $H$ can be proper colored, then we found a solution to the {\sc List-Coloring} of $G$.
+
+    The counterpart of the prof can be done by finding the maximum clique $Q$ of $H$ and building the color list of the remaining vertices $v$ as follow:
+
+    $\forall u_i \in Q$ if $(v,u_i) \notin E(H)$ adds $c_i$ to the list of $v$. Note that $H\backslash Q = G$ and therefore a solution for {\sc List-Coloring} of $G$ can be easily extended to the {\sc Coloring} of $H$.
 \end{proof}
 
 

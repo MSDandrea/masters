@@ -1,5 +1,5 @@
 ---
-title: Exercícios - Conceitos básicos
+title: Exercícios - Teoria dos Grafos
 author: Matheus Souza D'Andrea Alves
 date: 2018.2
 lang: pt-br
@@ -61,7 +61,7 @@ Tal demonstração é proporcional a demonstrar que em qualquer grafo com $n \ge
 
 ## 1.2
 
-Suponha que $G$ é um grafo conexo que possui 2 caminhos distintos de forma que $|p_1| = |p_2|$ onde ambos são os maiores caminhos. Como $G$ é conexo existe pelo menos um caminho entre quaisquer vértices de $p_1$ e $p_2$, porém tal caminho é absurdo pois se o mesmo existir $p_1$ e $p_2$ não são os maiores caminhos, já que o caminho necessário teria uma soma dos vértices de $p_1$ e $p_2$.
+Suponha que $G$ é um grafo conexo que possui 2 caminhos distintos de forma que $|p_1| = |p_2|$ onde ambos são os maiores caminhos. Como $G$ é conexo existe pelo menos um caminho entre quaisquer vértices de $p_1$ e $p_2$, porém tal caminho é absurdo pois se o mesmo existir $p_1$ e $p_2$ não são os maiores caminhos, já que o caminho necessário teria uma soma dos vértices de $p_1$ e $p_2$. \qed
 
 ## 1.3
 
@@ -77,4 +77,53 @@ graph G {
 }
 ```
 
-Observe que tal recursão só para quando ou existe um ciclo ou se atinge um vértice de grau ímpar (i.e $v$). Porém para que qualquer $w_i$ seja o fecho de um ciclo e não seja necessário a adição de mais um vértice ele precisa ser $v$ e portanto $\exists P[u,v]$
+Observe que tal recursão só para quando ou existe um ciclo ou se atinge um vértice de grau ímpar (i.e $v$). Porém para que qualquer $w_i$ seja o fecho de um ciclo e não seja necessário a adição de mais um vértice ele precisa ser $v$ e portanto $\exists P[u,v]$ \qed
+
+## 1.4
+
+## 1.5
+
+Tal regra é o mesmo que afirmar que, dado qualquer grafo $G$, existem 2 vértices $u,v$ tal que $d(u)=d(v)$
+Observe que a regra é válida quando $k=2$.
+
+```{.dot scale="0.3" caption="possíveis vizinhanças com 2 vértices"}
+graph g {
+  rankdir=LR
+  subgraph h{
+    a[label="a"]
+    b[label="b"]
+  }
+  subgraph j{
+    c[label="a"]
+    d[label="b"]
+    c -- d
+  }
+  {rank=same a; c}
+  {rank=same b; d}  
+}
+```
+
+Suponha que a regra seja valida para algum $k>2$, mostraremos que também é valida para $k+1$.
+
+Queremos adicionar o $k+1$-ésimo vértice ($v$) ao grafo $G_k$, se o vértice é isolado a propriedade se mantém, o mesmo acontece quando o vértice é universal. Para que a regra falhe é necessário que exista um número $j$ de vizinhos de $v$ em $G_k$ tal que a regra não seja válida, porém $0 < j < k$ onde a propriedade é sempre válida, então não existe tal configuração e a regra se aplica a $k+1$. \qed
+
+
+## 2.3
+
+Queremos mostrar : $G$ é floresta  $\iff |E(G)| = |V(G)| - \omega(G)$.
+
+
+Seja $G$ uma floresta formada por $\omega(G)$ árvores, toda árvore $a_i$ tem $n_i$ vértices e consequentemente $n_i - 1$ arestas. Sendo assim se somarmos todas as árvores temos $\sum\limits_{i=1}^{\omega(G)}|E(a_i)|= \sum\limits_{i=1}^{\omega(G)}(|V(a_i)| - 1)$ que implica em:
+$$|E(G)|= |V(G)| - \omega(G)$$.
+
+A contra partida se mostra semelhante devido ao Teorema 2.3. Observe que a regra é válida para $\omega(G)=1$.
+
+Suponha que valha para algum $k > 1$, mostraremos que vale então para $k+1$.
+
+$\sum\limits_{i=1}^{k+1}|E(a_i)|= \sum\limits_{i=1}^{k+1}(|V(a_i)| - 1)$
+
+$\sum\limits_{i=1}^{k}|E(a_i)| + |E(a_{k+1})|= \sum\limits_{i=1}^{k}(|V(a_i)| - 1) + |V(a_{k+1})| -1$
+
+$|E(a_{k+1})| = |V(a_{k+1})| - 1$
+
+e portanto $a_{k+1}$ é arvore. \qed

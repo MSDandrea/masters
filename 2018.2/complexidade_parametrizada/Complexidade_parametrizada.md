@@ -2,6 +2,8 @@
 title: Complexidade Parametrizada
 author: Matheus Souza D'Andrea Alves
 institute: UFF
+toc: true
+numbersections: true
 date: 2018.2
 header-includes: |  # pacotes latex para uso no texto
  \usepackage{tikz}
@@ -87,3 +89,81 @@ Depende de como se planeja abordar o problema, suponha dois algoritmos de kernel
   \end{itemize}
 \end{itemize}
 }
+
+## Crown decomposition
+
+```{.dot scale="0.4"}
+graph G {
+  node[shape=circle]
+  {rank=same A;B;C}
+  {rank=same D;E}
+  F
+  {rank=same G;H}
+  I
+  A -- D
+  B -- D
+  C -- D
+  A -- E
+  B -- E
+  C -- E
+  D -- F
+  E -- F
+  F -- G
+  F -- H
+  G -- I
+  H -- I
+}
+```
+
+Estratégia para kernelização via decomposição em coroa
+
+- Encontre uma coroa $(C,H,R)$ de $V(G)$
+- Remova $C \cup H$ de $G$
+- $k$ = $k - |H|$
+
+### Como encontrar decomposição em coroa em grafos quaisquer
+
+Observe o seguinte lema:
+
+\lema{
+  Se $G$ tem mais de $3k$ vértices então $G$ possui
+  \begin{itemize}
+   \item um emparelhamento de tamanho $k+1$, ou
+   \item uma decomposição em coroa.
+  \end{itemize}
+  E ambos podem ser encontrados em tempo polinomial.
+  }{
+    Se possui kernel o mesmo possui um emparelhamento com no máximo $2k$ vértices.
+    $$|V(M)| \leq 2k$$
+    Observe que isso gera um vertex cover, e portanto $ I = G \textbackslash M$ é independente.\\
+
+    Como queremos encontrar uma cabeça e coroa estamos interessados apenas na vizinhança entre $I$ e $M$. Ignorando as arestas pertencentes à cabeça, temos um bipartido formado por $I \cup M$. Em $I$ podemos encontrar um novo emparelhamento $M'$ e um conjunto independente $I'$. Encontrar o vertex cover em bipartidos é polinomial nos dando então um vertex cover $VC$, é importante notar que em bipartidos o tamanho do emparelhamento máximo é o tamanho do menor vertex cover, logo:
+
+    $$|M'| \leq k \quad \text{já que $|M'| \leq |M|/2$}$$
+    $$|VC| \leq k$$
+    $$|M'| = |VC| \leq k$$
+    $$VC \cap V(M) =  \emptyset$$
+
+    Seja $M^*$ as arestas de $M'$ que tem um dos vértices em $M \cap VC$.
+
+    $H = VC \cap V(M^*)$
+
+    $C= V(M^*) \cap I$
+
+    $R = V(G) \textbackslash (C \cup H) V(G) \textbackslash V(M*)$
+
+  }
+
+# Classes de parametrização
+
+## Valor de entrada
+
+## Subestrutura
+
+### Vertex cover
+
+### Treewidth
+
+O que é _treewidth_? Devemos primeiro entender decomposição em árvor.
+
+Uma decomposição em árvore de um grafo $G$ é uma estrutura $\mathcal{T} =(T,\chi)$

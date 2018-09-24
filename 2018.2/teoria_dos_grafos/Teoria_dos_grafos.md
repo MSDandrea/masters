@@ -229,12 +229,40 @@ Em $G-v$ não pode haver nenhum caminho entre $x$ e $y$, pois de acordo com a pr
 }
 
 \teorema{ Seja $G$ um grafo com $k+1$ vértices. $G$ é $k$-conexo se e somente se para quaisquer dois vértices de $G$ existem $k$ caminhos internamente disjuntos entre eles.}{
-  
+
 }
 
 # Segundo módulo
 
 ## Grafos eurelianos e hamiltonianos
+
+### Grafos eurelianos
+\definicao{Passeio Eureliano}{
+  Um passeio ou trilha é dito eureliano(a) se é uma trilha fechada onde cada aresta aparece apenas uma vez.
+}
+
+```{.dot scale="0.4" caption="Grafo eureliano"}
+graph g {
+  rankdir=LR   
+  a--b
+  a--c
+  a--d
+  a--f
+  b--c
+  c--d
+  c--f
+  d--e
+  d--f
+  e--f
+}
+```
+
+\teorema{Um multigrafo $G$ conexo é eureliano se e somente se  todo vértice possui grau par.}{
+
+}
+
+### Grafos hamiltonianos
+
 
 ## Emparelhamento
 

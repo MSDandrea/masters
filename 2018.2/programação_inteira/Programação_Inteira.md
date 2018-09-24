@@ -23,6 +23,9 @@ header-includes: |
   \newtcbtheorem{problem}{Problema}{colback=gray!5,colframe=gray!45!black,fonttitle=\bfseries}{lm}
 ---
 
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 \tableofcontents
 \pagebreak
 
@@ -560,7 +563,7 @@ Máximo subgrafo balanceado
 Dado um grafo $G = (V, E^+ \cup E^-)$, encontrar um grafo que pode ser particionado em no máximo $k$ componentes equilibradas
 um grafo
 
-```{.dot scale="0.4", caption="K_5"}
+```{.dot scale="0.4" }
 graph G
 {
   node[shape=circle]
@@ -577,9 +580,85 @@ graph G
 ```
 
 
-# Otimização relaxamento limites
+<!-- # Otimização relaxamento limites -->
 
 # _Branch and bound_
+
+Definimos como branch and bound a estratégia de ramificar o problema em problemas mais limitados e resolver o todo por composição dos menores. Observe que tal estratégia leva a uma árvore.
+
+
+Chamamos de nós ativos aqueles que não foram nem podados nem ramificados.
+
+Os limitantes são classificados em:
+
+- Limitantes inferiores (primais): heuristicas, etc...
+- Limitantes superiores (duais): relaxação linear.
+
+Na árvore de soluções existem três formas de percorrer em busca da melhor solução.
+
+- Profundidade
+  - foco em encontrar uma solução viável.
+- Largura
+  - foco na diversidade da busca.
+- Limitantes
+  - foco na qualidade do resultado.
+
+## Branching em um nó.
+
+Uma variável é escolhida para ter seu valor limitado
+
+Um nó podado não sofre mais _branch_, nosso objetivo é podar todos os nós da árvore.
+
+Podamos das seguintes formas.
+
+- Por otimalidade  
+  O nó 2 pode ser podado pois sabemos que a solução ótima de 2 é $\overline{Z} = underline{Z} = 20$
+- Por limitante  
+  Melhor solução corrente: $\underline{Z}=21$, podemos podar o nó 2 pois temos que $\underline{Z^2} < 21$
+- Por inviabilidade  
+  Suponha o seguinte PPI: $8x_1 + 5x_2 + 3x_3 \leq 12$. observe que $x_1=x_2=1 \implies 13 \leq 12$ logo podemos podar o nó 2 por inviabilidade.
+
+
+Exemplo:
+
+```{.dot scale="0.4"}
+graph g{
+
+  1--2
+  1--3
+  2--4
+  2--5
+
+}
+```
+
+
+| max $z = 4x_1 -x_2$
+|
+| sujeito à
+|
+|   $7x_1 - 2x_2 \leq$ 14
+|   $2x_1 - 2_x2 \leq 3$
+|   $x_2 \leq x_3$
+|   $x_1,x_2 \in Z$
+|
+| solução(1)
+|   $x_1^* = 20/7,\quad x_2=3$
+|   $\overline{z}=59/7$
+|   $\underline{z}=-\infty$
+|
+|   Ramificações de $x_i$:
+|
+|                  $x_i$
+|
+|     $x_i \leq \floor{x_i} \quad \quad x_i \geq \ceil{x_i^*}$
+|      $x_1 \leq 2 \quad \quad \quad x_1 \geq 3$
+|   Podar nó direito.
+|
+| solução(2)
+|   $x_1^* = 2,\quad x_2^*=1/2$
+|   $\overline{z}^2=15/2$
+|   $\underline{z}=-\infty$
 
 # Plano de corte
 

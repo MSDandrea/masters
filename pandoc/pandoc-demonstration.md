@@ -25,6 +25,7 @@ header-includes: | # pacotes latex para uso no texto
  \usetikzlibrary{patterns}
  \usepackage{multicol}
  \usepackage{graphicx}
+ \usepackage{animate}
  \tcbuselibrary{theorems}
  \newtcbtheorem{theorem}{Teorema}{colback=green!5,colframe=green!45!black,fonttitle=\bfseries}{th}
  \newtcbtheorem{coro}{Corolario}{colback=blue!5,colframe=blue!45!black,fonttitle=\bfseries}{cr}
@@ -280,9 +281,21 @@ digraph graphname{
 }
 ```
 
+\animategraphics[height=2.8in,autoplay,controls]{12}{./pandoc/imagepdf/animate_}{0}{57}
 
 asdajksdkywiqtehfadvsdffdddd at \ref{my_lbl}
 
+\begin{tikzpicture}
+  \begin{scope}[opacity=0.7]
+    \fill[red!30!white]   ( 90:1.2) circle (2);
+    \fill[green!30!white] (210:1.2) circle (2);
+    \fill[blue!30!white]  (330:1.2) circle (2);
+  \end{scope}
+  \node at ( 90:2)    {Typography};
+  \node at (210:2)    {Design};
+  \node at (330:2)    {Coding};
+  \node [font=\Large] {\LaTeX};
+\end{tikzpicture}
 
 <!--
 \begin{theorem}
