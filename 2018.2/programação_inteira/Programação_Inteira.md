@@ -23,6 +23,12 @@ header-includes: |
   \newtcbtheorem{problem}{Problema}{colback=gray!5,colframe=gray!45!black,fonttitle=\bfseries}{lm}
 ---
 
+\newcommand{\teorema}[2]{\begin{theorem}{#1}{th} \textbf{Demonstração.}\\ #2 \qed \end{theorem}}
+\newcommand{\corolario}[2]{\begin{coro}{#1}{cr} \textbf{Demonstração.}\\ #2 \qed \end{coro}}
+\newcommand{\lema}[2]{\begin{lemma}{#1}{lm} \textbf{Demonstração.}\\ #2 \qed \end{lemma}}
+\newcommand{\definicao}[2]{\begin{define}{#1}{lm}  #2 \end{define}}
+\newcommand{\problema}[3]{\begin{problem}{#1}{lm} \textbf{Entrada:}  \textit{#2} \\ \textbf{Questão:} #3  \end{problem}}
+
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -661,6 +667,30 @@ graph g{
 |   $\underline{z}=-\infty$
 
 # Plano de corte
+
+
+\teorema{Toda desigualdade sólida para $\mathcal{X}$, pode ser obtida pela aplicação dos procedimentos $C-G$ um número finito de vezes}{
+ Como usar $C-G$ para cortar $\mathcal{X}* $ (ótimo fracionário) de {\sc CONV($\mathcal{X}$)}
+
+ Seja $B$ a base ótima da relaxação, temos que:
+
+ $$Max Z = \overline{Z} - \sum\limits_{j \in I_N}(Z_j - C_j)X_j$$
+
+ Sujeito a:
+
+ $$X_{B_i} = \overline{X_{B_i}} - \sum\limits_{j \in I_N}Y_{i,j}X_j \quad \forall i = 1 .. m$$
+
+ Seja $X_{B_u}$ uma variável fracionária, temos que:
+
+ $$X_{B_u} = \overline{X_{B_u}} - \sum\limits_{j \in I_N}Y_{u,j}X_j$$
+ $$X_{B_u} + \sum\limits_{j \in I_N}Y_{u,j}X_j = \overline{X_{B_u}}$$
+ $$X_{B_u} + \floor{\sum\limits_{j \in I_N}Y_{u,j}}X_j \leq \overline{X_{B_u}}$$
+ $$X_{B_u} + \floor{\sum\limits_{j \in I_N}Y_{u,j}}X_j \leq \floor{\overline{X_{B_u}}}$$
+
+
+
+}
+
 
 # _Branch and cut_
 

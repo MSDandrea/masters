@@ -1,13 +1,13 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2018.9.7)  19 SEP 2018 11:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2018.9.7)  10 OCT 2018 11:35
 entering extended mode
- \write18 enabled.
+ restricted \write18 enabled.
  %&-line parsing enabled.
-**./LAGOS/submission.tex
-(./LAGOS/submission.tex
+**./submission.tex
+(./submission.tex
 LaTeX2e <2018-04-01> patch level 5
-(./document-types/entcs.cls
+(../document-types/entcs.cls
 
-LaTeX Warning: You have requested document class `./document-types/entcs',
+LaTeX Warning: You have requested document class `../document-types/entcs',
                but the document class provides `entcs'.
 
 Document Class: entcs 2003/9/14, 2e-1.15: Electronic Notes in Theoretical Compu
@@ -237,7 +237,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 \Slashbox=\box30
 )
-(./document-types/entcsmacro.sty)
+(../document-types/entcsmacro.sty)
 (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -618,20 +618,21 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 \verbatim@out=\write4
-runsystem(echo 'write18-test-2018919702'>"submission.w18")...executed.
+runsystem(echo 'write18-test-20181010695'>"submission.w18")...disabled (restric
+ted).
 
-\instream=\read3
-runsystem(rm -- "submission.w18")...executed.
 
-Package dot2texi Info: Automatically converting dot/neato files on input line 1
-48.
+
+Package dot2texi Warning: Shell escape not enabled.
+(dot2texi)                You'll need to convert the graphs yourself..
+
 \c@dtt@fignum=\count139
 )
 
 LaTeX Warning: Unused global option(s):
     [9pt].
 
-(LAGOS//submission.aux)
+(./submission.aux)
 \openout1 = `submission.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
@@ -667,7 +668,7 @@ LaTeX Info: Redefining \ref on input line 30.
 LaTeX Info: Redefining \pageref on input line 30.
 LaTeX Info: Redefining \nameref on input line 30.
 
-(LAGOS//submission.out) (LAGOS//submission.out)
+(./submission.out) (./submission.out)
 \@outlinefile=\write5
 \openout5 = `submission.out'.
 
@@ -758,29 +759,29 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.110 \end{thebibliography}
+l.114 \end{thebibliography}
                            
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 112.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 112.
- (LAGOS//submission.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 112.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 112.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 116.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 116.
+ (./submission.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 116.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 116.
 Package rerunfilecheck Info: File `submission.out' has not changed.
-(rerunfilecheck)             Checksum: <no file>.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 112.
+(rerunfilecheck)             Checksum: 48809B60DCB41E2C050DB5D9589D5888;201.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 116.
  ) 
 Here is how much of TeX's memory you used:
- 18359 strings out of 492642
- 365553 string characters out of 6135567
- 454179 words of memory out of 5000000
+ 18358 strings out of 492642
+ 365484 string characters out of 6135567
+ 454225 words of memory out of 5000000
  21897 multiletter control sequences out of 15000+600000
  15875 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,9n,67p,430b,308s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,9n,67p,424b,308s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texmf-dist/fonts/type1/public
@@ -798,10 +799,10 @@ pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/latxfont/lasy10.pfb>
-Output written on LAGOS//submission.pdf (2 pages, 210099 bytes).
+Output written on submission.pdf (2 pages, 210906 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 13 named destinations out of 1000 (max. 500000)
+ 134 PDF objects out of 1000 (max. 8388607)
+ 108 compressed objects within 2 object streams
+ 14 named destinations out of 1000 (max. 500000)
  45 words of extra memory for PDF output out of 10000 (max. 10000000)
 

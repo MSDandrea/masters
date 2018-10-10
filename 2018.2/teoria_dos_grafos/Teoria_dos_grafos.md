@@ -39,6 +39,7 @@ header-includes: |
 
 Um _grafo simples_ $G$ é denotado por um conjunto de vértices $V(G)$ e um conjunto de arestas $E(G)$.
 
+
 Cada aresta é um par não ordenado $(u,v)$ | ($\{u,v\} \subseteq V(G)$). Dois vértices $u$ e $v$ são vizinhos/adjacentes se existe uma aresta $(u,v) \in E(G)$.
 
 A ordem de um grafo é o numero de vértices de $G$
@@ -263,6 +264,7 @@ graph g {
 
 ### Grafos hamiltonianos
 
+\teorema{Se $G$ é um grafo Hamiltoniano, então todo subconjunto $S \subseteq V(G)$ próprio e não vazio satisfaz $\omega(G-S)\leq|S|$}{}
 
 ## Emparelhamento
 

@@ -1,6 +1,6 @@
 {
 	"commands": [
-		"**/*.md : pandoc ./{relFullPath} --pdf-engine=pdflatex --extract-media --syntax-definition ./pandoc/language/lang.xml --highlight-style ./pandoc/language/def.theme --pdf-engine-opt=-shell-escape -o {relPath}{name}.pdf --filter ./pandoc/filters/dot-filter.py --quiet",
+		"**/*.md : pandoc ./{relFullPath} --pdf-engine=pdflatex --syntax-definition ./pandoc/language/lang.xml --highlight-style ./pandoc/language/def.theme -o {relPath}{name}.pdf --filter ./pandoc/filters/dot-filter.py --quiet --biblatex --bibliography={relPath}bibliografia.bib",
 		"**/*.tex : pdflatex -interaction=nonstopmode -synctex=1 -output-directory={relPath} -shell-escape ./{relFullPath}",
 		"**/*.tex : pdflatex -interaction=nonstopmode -synctex=1 -output-directory={relPath} -shell-escape ./{relFullPath}"
 	]

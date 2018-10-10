@@ -1,7 +1,0 @@
-digraph test {
-  node[shape=circle]
-  splines=spline
-  a[style=filled fillcolor="0.8,0.9,1.0"]
-  b[style=filled fillcolor=red]
-  a -> b -> c -> d -> e -> f -> a;
-}

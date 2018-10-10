@@ -1,4 +1,4 @@
-\documentclass[9pt]{./document-types/entcs} \usepackage{./document-types/entcsmacro}
+\documentclass[9pt]{../document-types/entcs} \usepackage{../document-types/entcsmacro}
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary[shapes, arrows]
@@ -101,8 +101,30 @@ The following theorem serves as base for the next demonstrations.
     $\forall u_i \in Q$ if $(v,u_i) \notin E(H)$ adds $c_i$ to the list of $v$. Note that $H\backslash Q = G$ and therefore a solution for {\sc List-Coloring} of $G$ can be easily extended to the {\sc Coloring} of $H$.
 \end{proof}
 
+Based in the previous demonstration we can extract the following corollaries
 
+\begin{corollary}
+  {\sc Coloring$(1,2)$} is NP-Complete.
+\end{corollary}
+\begin{proof}
+  Derivates from the NP-Completeness of list coloring on split graphs \cite{jansen1997}.
+\end{proof}
 
+\begin{corollary}
+  {\sc Coloring$(2,1)$ is Np-Complete.}
+\end{corollary}
+\begin{proof}
+  Derivates from the NP-Completeness of bipartite graphs demonstrated by Fellows at \cite{fellows07}
+\end{proof}
+
+Now remain to us to demonstrate the complexity of {\sc Coloring(0,2)}. In order to do so we will use the following theorem, which is based on a theorem proposed by Jensen et.al \cite{jansen1999}. 
+
+\begin{theorem} 
+  {\sc List-Coloring(0,2) is Np-Complete}
+\end{theorem}
+
+\begin{proof}
+\end{proof}
 \section{Bibliographical references}\label{references}
 
 \begin{thebibliography}{10}\label{bibliography}
