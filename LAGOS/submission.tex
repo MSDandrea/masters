@@ -1,6 +1,8 @@
 \documentclass[9pt]{../document-types/entcs} \usepackage{../document-types/entcsmacro}
 \usepackage{graphicx}
 \usepackage{tikz}
+ \usepackage{mathtools}
+  \usepackage{amsmath}
 \usetikzlibrary[shapes, arrows]
 \usepackage{dot2texi}
 \sloppy
@@ -23,7 +25,7 @@
 
 % A couple of exemplary definitions:
 
-
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
 \newcommand{\Nat}{{\mathbb N}}
 \newcommand{\Real}{{\mathbb R}}
 \def\lastname{Please list Your Lastname Here}
@@ -117,14 +119,70 @@ Based in the previous demonstration we can extract the following corollaries
   Derivates from the NP-Completeness of bipartite graphs demonstrated by Fellows at \cite{fellows07}
 \end{proof}
 
-Now remain to us to demonstrate the complexity of {\sc Coloring(0,2)}. In order to do so we will use the following theorem, which is based on a theorem proposed by Jensen et.al \cite{jansen1999}. 
+Now remain to us to demonstrate the complexity of {\sc Coloring(0,2)}. In order to do so we will use the following theorem, which is based on a theorem proposed by Jensen et.al \cite{jansen1999}. The proof is based on a reduction of the {\sc Restricted 3-SAT} problem to the {\sc List-Coloring(0,2)}
 
-\begin{theorem} 
+\textbf{Restricted 3-SAT}
+
+\textbf{Given:} A set of unnegated variables $X = \{x_1,\ldots,x_n\}$ and negated variables  $\overline{X} = \{\overline{x}_1,\ldots,\overline{x}_n\}$, a collection of clauses $c_1,\ldots,c_m$ such that
+\begin{itemize}
+  \item each clause $c_i$ contains two or three different literals $y_{i,k} \in X \cup \overline{X}$
+  \item there are at most three clauses that contain $x_j$ or $\overline{x}_j$ for each $1 \leq j \leq n$.
+\end{itemize}
+
+\textbf{Question:}  Does there exists a truth assignment for the variables such that each clause is satisfied?
+
+\begin{theorem}
   {\sc List-Coloring(0,2) is Np-Complete}
 \end{theorem}
 
+
 \begin{proof}
+Let $I$ be a instance of a restricted 3-SAT problem, we construct an instance $I'$ of list-coloring(0,2) problem as follows:
+
+For each variable $j$ we create six vertices $a_j^{(1)}$, $a_j^{(2)}$, $a_j^{(3)}$;	$b_j^{(1)}$, $b_j^{(2)}$, $b_j^{(3)}$. each vertex has a color set as follow:
+  \begin{itemize}
+    \item $a_j^{(k)}$ := \{$x_j^{(k)}$, $\overline{x_j}^{(k)}$ \}
+    \item $b_j^{(k)}$ := \{$\overline{x_j}^{(k)}$,$x_j^{((k \Mod{3}) + 1 )}$ \}
+  \end{itemize}
+
+Let $A$ be the set of all $a_j^{(k)}$ and $B$ the set of all $b_j^{(k)}$ build a clique with $A \cup B$.
+Note that this clique can only be colored in two manners:
+\begin{itemize}
+	\item (1)  $f(a_j^{(k)}) = x_j^{(k)} => b_j^{(k)} = \overline{x_j}^{(k)}$
+	\item (2)  $f(a_j^{(k)}) = \overline{x_j}^{(k)} => b_j^{(k)} = x_j^{((k \Mod{3}) + 1 )}$
+\end{itemize}
+
+Futhermore, for each clause create a vertex $c_i$ and populate their lists as follows:
+
+For each variable $j$ or the negation of it $\overline{j}$ in the clause $i$, adds $x_j^{(k)}$ to the list of $c_i$ where k is the current number of occurences of $j$.
+For example, let $I$ be the following 3-SAT:
+
+$(p \lor q \lor r) \land (\neg{p} \lor q \lor r) \land (\neg{p} \lor \neg{r} \lor s)$
+
+their clauses would be transformed in these vertex:
+\begin{itemize}
+	\item $c_1$ with list: \{$p^1$, $q^1$, $r^1$ \}
+	\item $c_2$ with list: \{$\overline{p}^2$, $q^2$, $r^2$ \}
+	\item $c_3$ with list: \{$\overline{p}^3$, $\overline{r}^3$, $s^1$ \}
+\end{itemize}
+
+		Let $C$ be the set containing all $c_i$ build a clique with $C \cup A$.
+
+    Using the variable $p$ to demonstrate, if $p$ is {\sc true} then $a_p^{(1)},a_p^{(2)},a_p^{(3)}$ shall be colored with $p'^1,p'^2,p'^3$, allowing the color $p^x$,and denying the color $p'^x$ to be choosed to color a clause or another variable in the neighbourhood of $a_p^{(1)},a_p^{(2)},a_p^{(3)}$.
+
+    Therefore is easy to see that if $I'$ can be list-colored then exists a truth assignment in $I$ that satisfies each clause. And that by construction if a thruth assignment satisfies $I$ then exists a list-coloring of $I'$ in the following way:
+
+    \[color(a_j^{(k)})=
+    \begin{cases}
+       x_j^{(k)}, \text{}\\
+       \overline{x}_j^{(k)},
+    \end{cases}
+    \]
 \end{proof}
+
+
+
+
 \section{Bibliographical references}\label{references}
 
 \begin{thebibliography}{10}\label{bibliography}
