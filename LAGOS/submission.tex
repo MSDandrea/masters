@@ -174,10 +174,25 @@ their clauses would be transformed in these vertex:
 
     \[color(a_j^{(k)})=
     \begin{cases}
-       x_j^{(k)}, \text{}\\
-       \overline{x}_j^{(k)},
+       x_j^{(k)}, \text{if $x_j$ is false}\\
+       \overline{x}_j^{(k)}, \text{otherwhise}
     \end{cases}
     \]
+
+    \[color(b_j^{(k)})=
+    \begin{cases}
+      \overline{x}_j^{(k)}, \text{if $x_j$ is false} \\
+       x_j^{((k \Mod{3}) + 1 )}, \text{otherwhise} \\
+    \end{cases}
+    \]
+
+    \[color(b_j^{(k)})=
+    \begin{cases}
+      \overline{x}_j^{(k)}, \text{if $x_j$ is false} \\
+       x_j^{((k \Mod{3}) + 1 )}, \text{otherwhise} \\
+    \end{cases}
+    \]
+
 \end{proof}
 
 
