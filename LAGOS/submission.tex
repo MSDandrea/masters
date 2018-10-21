@@ -2,7 +2,8 @@
 \usepackage{graphicx}
 \usepackage{tikz}
  \usepackage{mathtools}
-  \usepackage{amsmath}
+ \usepackage{tabularx,lipsum,environ,amsmath,amssymb}
+ \usepackage{diagbox}
 \usetikzlibrary[shapes, arrows]
 \usepackage{dot2texi}
 \sloppy
@@ -28,15 +29,20 @@
 \newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
 \newcommand{\Nat}{{\mathbb N}}
 \newcommand{\Real}{{\mathbb R}}
-\def\lastname{Please list Your Lastname Here}
+\definecolor{grena}{HTML}{971528}
+\definecolor{nice}{HTML}{38b446}
+\definecolor{warn}{HTML}{e2cb49}
+\renewcommand{\P}{\textcolor{nice}{\textit{P}}}
+\newcommand{\NPc}{\textcolor{grena}{\textit{NPc}}}
+\newcommand{\?}{\textcolor{warn}{?}}
+\def\lastname{Alves}
 \begin{document}
 \begin{frontmatter}
-  \title{An Example Paper} \author{My
-    Name\thanksref{ALL}\thanksref{myemail}}
-  \address{My Department\\ My University\\
-    My City, My Country} \author{My Co-author\thanksref{coemail}}
-  \address{My Co-author's Department\\My Co-author's University\\
-    My Co-author's City, My Co-author's Country} \thanks[ALL]{Thanks
+  \title{An Example Paper} \author{Matheus S. D'Andrea Alves\thanksref{ALL}\thanksref{myemail}}
+  \address{Instituto de Computaç\~ao\\ Universidade Federal Fluminense\\
+    Niter\'oi, Brazil} \author{U\'everton dos Santos Souza\thanksref{coemail}}
+    \address{Instituto de Computaç\~ao\\ Universidade Federal Fluminense\\
+      Niter\'oi, Brazil} \thanks[ALL]{Thanks
     to everyone who should be thanked} \thanks[myemail]{Email:
     \href{mailto:myuserid@mydept.myinst.myedu} {\texttt{\normalshape
         myuserid@mydept.myinst.myedu}}} \thanks[coemail]{Email:
@@ -90,7 +96,7 @@ Is noticeable that any $(r,\ell)$-graph is simultaneously a $(r+1,\ell)$-graph a
 
 The following theorem serves as base for the next demonstrations.
 
-\begin{theorem}
+\begin{theorem}\label{list}
   {\sc List-Coloring$(r,\ell)$} is equivalent to {\sc Coloring$(r,\ell+1)$}.
 \end{theorem}
 \begin{proof}
@@ -141,34 +147,36 @@ Let $I$ be a instance of a restricted 3-SAT problem, we construct an instance $I
 
 For each variable $j$ we create six vertices $a_j^{(1)}$, $a_j^{(2)}$, $a_j^{(3)}$;	$b_j^{(1)}$, $b_j^{(2)}$, $b_j^{(3)}$. each vertex has a color set as follow:
   \begin{itemize}
-    \item $a_j^{(k)}$ := \{$x_j^{(k)}$, $\overline{x_j}^{(k)}$ \}
-    \item $b_j^{(k)}$ := \{$\overline{x_j}^{(k)}$,$x_j^{((k \Mod{3}) + 1 )}$ \}
+    \item $a_j^{(k)}$ := \{$j^{(k)}$, $\overline{j}^{(k)}$ \}
+    \item $b_j^{(k)}$ := \{$\overline{j}^{(k)}$,$j^{((k \Mod{3}) + 1 )}$ \}
   \end{itemize}
 
 Let $A$ be the set of all $a_j^{(k)}$ and $B$ the set of all $b_j^{(k)}$ build a clique with $A \cup B$.
 Note that this clique can only be colored in two manners:
 \begin{itemize}
-	\item (1)  $f(a_j^{(k)}) = x_j^{(k)} => b_j^{(k)} = \overline{x_j}^{(k)}$
-	\item (2)  $f(a_j^{(k)}) = \overline{x_j}^{(k)} => b_j^{(k)} = x_j^{((k \Mod{3}) + 1 )}$
+	\item (1)  $f(a_j^{(k)}) = j^{(k)} => b_j^{(k)} = \overline{j}^{(k)}$
+	\item (2)  $f(a_j^{(k)}) = \overline{j}^{(k)} => b_j^{(k)} = j^{((k \Mod{3}) + 1 )}$
 \end{itemize}
 
 Futhermore, for each clause create a vertex $c_i$ and populate their lists as follows:
 
-For each variable $j$ or the negation of it $\overline{j}$ in the clause $i$, adds $x_j^{(k)}$ to the list of $c_i$ where k is the current number of occurences of $j$.
-For example, let $I$ be the following 3-SAT:
+For each variable $j$ or the negation of it $\overline{j}$ in the clause $i$, adds $j^{(k)}$ or $\overline{j}^{(k)}$ respectively to the list of $c_i$ where k is the current number of occurences of $j$. Since therae is at most three clauses with $j$ or $\overline{j}$ this assignment exists and can be found in polynomial time.
+
+For example, let $I$ be the following Restricted 3-SAT:
 
 $(p \lor q \lor r) \land (\neg{p} \lor q \lor r) \land (\neg{p} \lor \neg{r} \lor s)$
 
 their clauses would be transformed in these vertex:
+
 \begin{itemize}
 	\item $c_1$ with list: \{$p^1$, $q^1$, $r^1$ \}
 	\item $c_2$ with list: \{$\overline{p}^2$, $q^2$, $r^2$ \}
 	\item $c_3$ with list: \{$\overline{p}^3$, $\overline{r}^3$, $s^1$ \}
 \end{itemize}
 
-		Let $C$ be the set containing all $c_i$ build a clique with $C \cup A$.
+		Let $C$ be the set containing all $c_i$ build a clique with $C \cup A$, obtaining a co-bipartite graph.
 
-    Using the variable $p$ to demonstrate, if $p$ is {\sc true} then $a_p^{(1)},a_p^{(2)},a_p^{(3)}$ shall be colored with $p'^1,p'^2,p'^3$, allowing the color $p^x$,and denying the color $p'^x$ to be choosed to color a clause or another variable in the neighbourhood of $a_p^{(1)},a_p^{(2)},a_p^{(3)}$.
+    Using the variable $p$ to demonstrate, if $p$ is {\sc true} then $a_p^{(1)},a_p^{(2)},a_p^{(3)}$ shall be colored with $\overline{p}^1,\overline{p}^2,\overline{p}^3$, allowing the color $p^x$,and denying the color $\overline{p}^x$ to be choosed to color a clause or another variable in the neighbourhood of $a_p^{(1)},a_p^{(2)},a_p^{(3)}$.
 
     Therefore is easy to see that if $I'$ can be list-colored then exists a truth assignment in $I$ that satisfies each clause. And that by construction if a thruth assignment satisfies $I$ then exists a list-coloring of $I'$ in the following way:
 
@@ -186,17 +194,42 @@ their clauses would be transformed in these vertex:
     \end{cases}
     \]
 
-    \[color(b_j^{(k)})=
-    \begin{cases}
-      \overline{x}_j^{(k)}, \text{if $x_j$ is false} \\
-       x_j^{((k \Mod{3}) + 1 )}, \text{otherwhise} \\
-    \end{cases}
+    \[color(c_i)= \text{any remaining color after the translate of assignment.}
     \]
 
 \end{proof}
 
+Using the reduction seen at theorem \ref{list} we obtain:
+
+\begin{corollary}
+  {\sc Coloring$(0,3)$} is NP-Complete.
+\end{corollary}
 
 
+Therefore we complete our dichotomy on the complexicity of {\sc Coloring$(r,\ell)$}:
+
+\begin{table}[!h]
+	\center
+	\begin{tabular}{l|*{7}c}
+		\toprule
+		\backslashbox{$r$}{$\ell$} & 0 & 1 & 2 & 3 & 4 & \ldots & n\\
+		\midrule
+		0 & \P & \P & \P & \NPc & \NPc & \ldots & \NPc\\
+		1 & \P & \P & \NPc & \NPc & \NPc & \ldots & \NPc\\
+		2 & \P & \NPc & \NPc & \NPc & \NPc & \ldots & \NPc\\
+		3 & \P & \NPc & \NPc & \NPc & \NPc & \ldots & \NPc\\
+		4 & \NPc & \NPc & \NPc & \NPc & \NPc & \ldots & \NPc\\
+		$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & \NPc\\
+		n & \NPc & \NPc & \NPc & \NPc & \NPc & \ldots & \NPc\\
+		\bottomrule
+	\end{tabular}%
+	\caption{$\P/\NPc$ dichotomy on {\sc Coloring$(r,\ell)$}}
+	\label{tab:tabela_dictrl}%
+\end{table}%
+
+\subsection{Peculiarity of {\sc Coloring$(2,1)$}}
+
+Given any $(2,1)$ partitionable graph, to find the $(2,1)$ partition in which the clique is maximal is polynomial. Therefore a proper coloring can be made with $k +1$ colors where $k$ is the size of the clique. In other hand, as the clique has size $k$, we know that the coloring contains at least $k$ collors. Since {\sc Coloring$(2,1)$} $\propto$ {\sc List-Coloring$(2,0)$}, {\sc List-Coloring$(2,0)$} is NP-Complete. 
 
 \section{Bibliographical references}\label{references}
 
